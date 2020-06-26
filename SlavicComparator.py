@@ -35,54 +35,61 @@ def isFullyCyrillic(text):
         return False
     else:
         return True
-    
-while (True):
-    
-    while(True):
-        print("Введите слово на русском:")
-        word = input()
-            
-        if len(word) <= 30:
-            if isFullyCyrillic(word) == True:
-                wordURL = urllib.parse.quote(word)
-                break
+
+try:
+    if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):
+        print("Сайт Glosbe, на котором основано это приложение, сейчас по какой-то причине не работает!")
+except:
+    print("Без интернета это приложение не сможет работать, а сейчас подключение отсутствует")
+
+else:
+    while (True):
+        
+        while(True):
+            print("Введите слово на русском:")
+            word = input()
+                
+            if len(word) <= 30:
+                if isFullyCyrillic(word) == True:
+                    wordURL = urllib.parse.quote(word)
+                    break
+                else:
+                    print("В слове присутствуют не-кириллические символы либо пробелы, попробуйте ещё раз.")
             else:
-                print("В слове присутствуют не-кириллические символы либо пробелы, попробуйте ещё раз.")
+                print("Слово слишком длинное.")
+        
+        print("\nВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
+                
+        print("Белорусский: ", getTranslation(wordURL, 'be'))
+        print("Украинский: ", getTranslation(wordURL, 'uk'))
+        print("Русинский: ", getTranslation(wordURL, 'rue'))
+        print("Древнерусский: ", getTranslation(wordURL, 'orv'))
+
+        print("\nЗАПАДНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
+
+        print("Польский: ", getTranslation(wordURL, 'pl'))
+        print("Кашубский: ", getTranslation(wordURL, 'csb'))
+        print("Силезский: ", getTranslation(wordURL, 'szl'))
+        print("Верхнелужицкий: ", getTranslation(wordURL, 'hsb'))
+        print("Нижнелужицкий: ", getTranslation(wordURL, 'dsb'))
+        print("Полабский: ", getTranslation(wordURL, 'pox'))
+        print("Чешский: ", getTranslation(wordURL, 'cs'))
+        print("Словацкий: ", getTranslation(wordURL, 'sk'))
+
+        print("\nЮЖНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
+
+        print("Словенский: ", getTranslation(wordURL, 'sl'))
+        print("Хорватский: ", getTranslation(wordURL, 'hr'))
+        print("Сербский: ", getTranslation(wordURL, 'sr'))
+        print("Сербохорватский: ", getTranslation(wordURL, 'sh'))
+        print("Боснийский: ", getTranslation(wordURL, 'bs'))
+        print("Македонский: ", getTranslation(wordURL, 'mk'))
+        print("Болгарский: ", getTranslation(wordURL, 'bg'))
+        print("Церковнославянский: ", getTranslation(wordURL, 'cu'))
+
+        print("\nВыбрать новое слово? (да / любое иное слово или символ)")
+        word = input()
+        if (word != 'да'):
+            break
         else:
-            print("Слово слишком длинное.")
-    
-    print("\nВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
-            
-    print("Белорусский: ", getTranslation(wordURL, 'be'))
-    print("Украинский: ", getTranslation(wordURL, 'uk'))
-    print("Русинский: ", getTranslation(wordURL, 'rue'))
-    print("Древнерусский: ", getTranslation(wordURL, 'orv'))
-
-    print("\nЗАПАДНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
-
-    print("Польский: ", getTranslation(wordURL, 'pl'))
-    print("Кашубский: ", getTranslation(wordURL, 'csb'))
-    print("Силезский: ", getTranslation(wordURL, 'szl'))
-    print("Верхнелужицкий: ", getTranslation(wordURL, 'hsb'))
-    print("Нижнелужицкий: ", getTranslation(wordURL, 'dsb'))
-    print("Полабский: ", getTranslation(wordURL, 'pox'))
-    print("Чешский: ", getTranslation(wordURL, 'cs'))
-    print("Словацкий: ", getTranslation(wordURL, 'sk'))
-
-    print("\nЮЖНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
-
-    print("Словенский: ", getTranslation(wordURL, 'sl'))
-    print("Хорватский: ", getTranslation(wordURL, 'hr'))
-    print("Сербский: ", getTranslation(wordURL, 'sr'))
-    print("Сербохорватский: ", getTranslation(wordURL, 'sh'))
-    print("Боснийский: ", getTranslation(wordURL, 'bs'))
-    print("Македонский: ", getTranslation(wordURL, 'mk'))
-    print("Болгарский: ", getTranslation(wordURL, 'bg'))
-    print("Церковнославянский: ", getTranslation(wordURL, 'cu'))
-
-    print("\nВыбрать новое слово? (да / любое иное слово или символ)")
-    word = input()
-    if (word != 'да'):
-        break
-    else:
-        os.system('cls')
+            os.system('cls')
