@@ -25,11 +25,31 @@ def getTranslation(wordURL, language2):
                 return parser[1]
         else:
             return parser[1]
+
+def isFullyCyrillic(text):
+    try:
+        for i in text:
+            if bool(re.search('[\u0400-\u04FF]', i)) == False:
+                raise StopIteration
+    except StopIteration:
+        return False
+    else:
+        return True
     
-while (True):    
-    print("Введите слово на русском:")
-    word = input()
-    wordURL = urllib.parse.quote(word)
+while (True):
+    
+    while(True):
+        print("Введите слово на русском:")
+        word = input()
+            
+        if len(word) <= 30:
+            if isFullyCyrillic(word) == True:
+                wordURL = urllib.parse.quote(word)
+                break
+            else:
+                print("В слове присутствуют не-кириллические символы либо пробелы, попробуйте ещё раз.")
+        else:
+            print("Слово слишком длинное.")
     
     print("\nВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
             
