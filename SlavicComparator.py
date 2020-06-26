@@ -8,10 +8,23 @@ def getTranslation(wordURL, language2):
     with urllib.request.urlopen(source) as url: data = json.loads(url.read().decode())
     data = str(data)
     parser = re.findall(r'\w+', data)
-    if (parser[2] != word):
+    parser.remove('after')
+    parser.remove('phrase')
+    parser.remove('translations')
+    parser.remove('success')
+    parser.remove('True')
+    if (parser[0] != word):
         return "нет информации"
     else:
-        return parser[4]
+        if (len(parser) >= 3):
+            if  parser[1] != parser[2].lower():
+                return parser[1] + " / " + parser[2]
+            elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
+                return parser[1] + " / " + parser[3]
+            else:
+                return parser[1]
+        else:
+            return parser[1]
     
 while (True):    
     print("Введите слово на русском:")
