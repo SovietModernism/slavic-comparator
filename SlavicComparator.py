@@ -3,7 +3,7 @@ import json
 import re
 import os
 
-def getTranslation(wordURL, language2):    # функция для получения перевода
+def getTranslation(wordURL, language2):
     source = "https://iapi.glosbe.com/iapi3/wordlist?l1=ru&l2=" + language2 + "&q=" + wordURL + "&after=1&includeTranslations=true"
     with urllib.request.urlopen(source) as url: data = json.loads(url.read().decode())    # в словарь собирается вся информация из запроса
     data = str(data)                      # полученный словарь превращается в строку для последующего получения слов
@@ -18,23 +18,25 @@ def getTranslation(wordURL, language2):    # функция для получе�
     else:
         if (len(parser) >= 3):                           # если слова, следующие за нужным переводом в списке, не являются повторением этого самого
             if  parser[1] != parser[2].lower():          # слова, то можно включить их в конечный результат, чтобы тот был точнее
-                return parser[1] + " / " + parser[2]
+                return parser[1] + ' / ' + parser[2]
             elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
-                return parser[1] + " / " + parser[3]
+                return parser[1] + ' / ' + parser[3]
             else:
                 return parser[1]
         else:
             return parser[1]
+        
     
 def isFullyCyrillic(text):    # проверка на кириллическое слово (и наличие пробелов)
     try:
         for i in text:
-            if bool(re.search('[\u0400-\u04FF]', i)) == False:
+            if not bool(re.search('[\u0400-\u04FF]', i)):
                 raise StopIteration
     except StopIteration:
         return False    # цикл был прерван = есть не-кириллическая буква
     else:
         return True     # цикл не был прерван = слово полностью на кириллице
+    
 
 try:
     if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):   # проверка на активность сайта
@@ -52,7 +54,7 @@ else:
             word = input()
             
             if len(word) <= 30:
-                if isFullyCyrillic(word) == True:
+                if isFullyCyrillic(word):
                     wordURL = urllib.parse.quote(word)    # перекодирование слова в URL-стиль для дальнейшей работы с ним
                     break
                 else:
@@ -108,6 +110,6 @@ else:
             break
             
         except:    # ловит все остальные ошибки
-            print("Произошла неизвестная ошибка, не связанная с интернетом или полученными данными.")
+            print("Произошла непредвиденная ошибка.")
             os.system("pause")
             break
