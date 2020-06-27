@@ -4,6 +4,11 @@ import re
 import os
 
 
+# кастомное исключение при подключении к нерабочему сайту
+class noSiteConnectionError(Exception):
+    pass
+
+
 def getTranslation(wordURL, language2):
 
     source = "https://iapi.glosbe.com/iapi3/wordlist?l1=ru&l2=" + language2 + \
@@ -58,11 +63,14 @@ def isFullyCyrillic(text):    # проверка на кириллическое
 
 try:
     if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):   # проверка на активность сайта
-        print("Сайт Glosbe, на котором основано это приложение, сейчас по какой-то причине не работает!")
-        os.system("pause")
+        raise noSiteConnectionError
+
+except noSiteConnectionError:
+    print("Сервер Glosbe работает, однако вернул код ошибки!")
+    os.system("pause")
 
 except urllib.error.URLError:
-    print("Без интернета это приложение не сможет работать, а сейчас подключение отсутствует.")
+    print("Этой программе требуется наличие интернета, подключения к которому сейчас нет, либо же сайт Glosbe просто стал недоступен.")
     os.system("pause")
 
 else:
