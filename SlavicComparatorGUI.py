@@ -4,6 +4,10 @@ import re
 from tkinter import *
 
 
+# кастомное исключение при подключении к нерабочему сайту
+class noSiteConnectionError(Exception):
+    pass
+
 # переменная для проверки, была ли уже неудачная попытка ввести слово
 anErrorOnceOccured = None
 
@@ -49,14 +53,17 @@ window.geometry('1000x500')
 # проверка на активность сайта, а также на наличие интернета
 try:
     if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):
-        noSiteText = Label(window, text = "Сайт Glosbe, на котором основано это приложение, сейчас по какой-то причине не работает!")
-        noSiteText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
-        noSiteText.config(font = ("Times New Roman", 13), fg = "red")
+        raise noSiteConnectionError
+
+except noSiteConnectionError:
+    noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
+    noSiteText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
+    noSiteText.config(font = ("Times New Roman", 13), fg = "red")
 
 except urllib.error.URLError:
-    noConnectText = Label(window, text = "Без интернета это приложение не сможет работать, а сейчас подключение отсутствует.")
+    noConnectText = Label(window, text = "Этой программе требуется наличие интернета, подключения к которому сейчас нет, либо же сайт Glosbe просто стал недоступен.")
     noConnectText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
-    noConnectText.config(font = ("Times New Roman", 13), fg = "red")
+    noConnectText.config(font = ("Times New Roman", 10), fg = "red")
     
 else:
     # начальный текст
