@@ -3,21 +3,34 @@ import json
 import re
 import os
 
+
 def getTranslation(wordURL, language2):
-    source = "https://iapi.glosbe.com/iapi3/wordlist?l1=ru&l2=" + language2 + "&q=" + wordURL + "&after=1&includeTranslations=true"
-    with urllib.request.urlopen(source) as url: data = json.loads(url.read().decode())    # в словарь собирается вся информация из запроса
-    data = str(data)                      # полученный словарь превращается в строку для последующего получения слов
-    parser = re.findall(r'\w+', data)     # с помощью регулярных выражений отсеиваются слова
-    parser.remove('after')                # идёт удаление ненужных технических слов
+
+    source = "https://iapi.glosbe.com/iapi3/wordlist?l1=ru&l2=" + language2 + \
+             "&q=" + wordURL + "&after=1&includeTranslations=true"
+
+    # в словарь собирается информация из запроса
+    with urllib.request.urlopen(source) as url:
+        data = json.loads(url.read().decode())
+
+    # словарь превращается в строку, отсеиваются все слова
+    data = str(data)
+    parser = re.findall(r'\w+', data)
+
+    # удаление ненужных технических слов
+    parser.remove('after')
     parser.remove('phrase')
     parser.remove('translations')
     parser.remove('success')
     parser.remove('True')
-    if (parser[0] != word):               # проверка, действительно ли это перевод нужного слова, или же было просто переведено что-то похожее
+
+    # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
+    if (parser[0] != word):
         return "нет информации"
     else:
-        if (len(parser) >= 3):                           # если слова, следующие за нужным переводом в списке, не являются повторением этого самого
-            if  parser[1] != parser[2].lower():          # слова, то можно включить их в конечный результат, чтобы тот был точнее
+        # дополнительные переводы включаются в результат, если те не совпадают с основным переводом
+        if (len(parser) >= 3):
+            if parser[1] != parser[2].lower():
                 return parser[1] + ' / ' + parser[2]
             elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
                 return parser[1] + ' / ' + parser[3]
@@ -25,46 +38,53 @@ def getTranslation(wordURL, language2):
                 return parser[1]
         else:
             return parser[1]
-        
-    
-def isFullyCyrillic(text):    # проверка на кириллическое слово (и наличие пробелов)
+
+
+def isFullyCyrillic(text):    # проверка на кириллическое слово и наличие пробелов
     try:
+
         for i in text:
             if not bool(re.search('[\u0400-\u04FF]', i)):
                 raise StopIteration
+
     except StopIteration:
-        return False    # цикл был прерван = есть не-кириллическая буква
+        # цикл был прерван -> есть не-кириллическая буква
+        return False
+
     else:
-        return True     # цикл не был прерван = слово полностью на кириллице
-    
+        # цикл не был прерван -> слово полностью на кириллице
+        return True
+
 
 try:
     if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):   # проверка на активность сайта
         print("Сайт Glosbe, на котором основано это приложение, сейчас по какой-то причине не работает!")
         os.system("pause")
-except:
+
+except urllib.error.URLError:
     print("Без интернета это приложение не сможет работать, а сейчас подключение отсутствует.")
     os.system("pause")
 
 else:
     while (True):
-        
+
         while(True):    # проверка слова на нормальность
             print("Введите слово на русском:")
             word = input()
-            
+
             if len(word) <= 30:
                 if isFullyCyrillic(word):
-                    wordURL = urllib.parse.quote(word)    # перекодирование слова в URL-стиль для дальнейшей работы с ним
+                    # перекодирование слова в URL-стиль для дальнейшей работы с ним
+                    wordURL = urllib.parse.quote(word)
                     break
                 else:
                     print("В слове присутствуют не-кириллические символы либо пробелы, попробуйте ещё раз.")
             else:
                 print("Слово слишком длинное.")
-                
+
         try:
             print("\nВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
-                    
+
             print("Белорусский: ", getTranslation(wordURL, 'be'))
             print("Украинский: ", getTranslation(wordURL, 'uk'))
             print("Русинский: ", getTranslation(wordURL, 'rue'))
@@ -98,18 +118,21 @@ else:
                 break
             else:
                 os.system('cls')
-        
-        except ValueError:    # может возникнуть при работе функции getTranslation на этапе удаления ненужных слов, если тех вдруг не окажется
+
+        # возникает при работе функции getTranslation на этапе удаления ненужных слов, если их вдруг не окажется
+        except ValueError:
             print("Произошла ошибка при обработке нестандартных полученных данных.")
             os.system("pause")
             break
-        
-        except urllib.error.URLError:    # может возникнуть, когда urllib пытается работать с каким-либо сайтом, но интернета нет
+
+        # возникает когда urllib пытается работать с каким-либо сайтом, но интернета нет
+        except urllib.error.URLError:
             print("Во время выполнения программы пропало подключение к интернету")
             os.system("pause")
             break
-            
-        except:    # ловит все остальные ошибки
+
+        # ловит все остальные ошибки
+        except:
             print("Произошла непредвиденная ошибка.")
             os.system("pause")
             break
