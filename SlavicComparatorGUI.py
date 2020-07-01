@@ -1,12 +1,5 @@
-import urllib.request
-import json
-import re
+import SlavicComparatorFunctions as scf   # локальный модуль с функциями
 from tkinter import *
-
-
-# кастомное исключение при подключении к нерабочему сайту
-class noSiteConnectionError(Exception):
-    pass
 
 # переменная для проверки, была ли уже неудачная попытка ввести слово
 anErrorOnceOccured = None
@@ -36,43 +29,7 @@ def buttonClicked():
         if anErrorOnceOccured:
             warningText.grid_forget()
         mainProgramPart()
-        
-        
-# функция для получения перевода
-def getTranslation(wordURL, language2):
 
-    source = "https://iapi.glosbe.com/iapi3/wordlist?l1=ru&l2=" + language2 + \
-             "&q=" + wordURL + "&after=1&includeTranslations=true"
-
-    # в словарь собирается информация из запроса
-    with urllib.request.urlopen(source) as url:
-        data = json.loads(url.read().decode())
-
-    # словарь превращается в строку, отсеиваются все слова
-    data = str(data)
-    parser = re.findall(r'\w+', data)
-
-    # удаление ненужных технических слов
-    parser.remove('after')
-    parser.remove('phrase')
-    parser.remove('translations')
-    parser.remove('success')
-    parser.remove('True')
-
-    # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
-    if (parser[0] != word):
-        return "нет информации"
-    else:
-        # дополнительные переводы включаются в результат, если те не совпадают с основным переводом
-        if (len(parser) >= 3):
-            if parser[1] != parser[2].lower():
-                return parser[1] + ' / ' + parser[2]
-            elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
-                return parser[1] + ' / ' + parser[3]
-            else:
-                return parser[1]
-        else:
-            return parser[1]
 
 
 # основная часть программы
@@ -89,21 +46,18 @@ window.title("Slavic Comparator")
 window.geometry('1000x500')
 
 # проверка на активность сайта, а также на наличие интернета
-try:
-    if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):
-        raise noSiteConnectionError
-
-except noSiteConnectionError:
+if scf.isConnected() == "noSiteConnectionError":
     noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
     noSiteText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
     noSiteText.config(font = ("Times New Roman", 13), fg = "red")
-
-except urllib.error.URLError:
+    
+elif scf.isConnected() == "urllib.error.URLError":
     noConnectText = Label(window, text = "Этой программе требуется наличие интернета, подключения к которому сейчас нет, либо же сайт Glosbe просто стал недоступен.")
     noConnectText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
     noConnectText.config(font = ("Times New Roman", 10), fg = "red")
     
-else:
+elif scf.isConnected() == "yes":
+ 
     # начальный текст
     entryText = Label(window, text = "Введите слово на русском:")
     entryText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
