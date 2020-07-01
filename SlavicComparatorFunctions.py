@@ -14,7 +14,10 @@ language = ('be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
 
         
 # функция для получения перевода
-def getTranslation(wordURL, language2):
+def getTranslation(entryWord, language2):
+
+    word = entryWord.get()
+    wordURL = urllib.parse.quote(word)
 
     source = "https://iapi.glosbe.com/iapi3/wordlist?l1=ru&l2=" + language2 + \
              "&q=" + wordURL + "&after=1&includeTranslations=true"
