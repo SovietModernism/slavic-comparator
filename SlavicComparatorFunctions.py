@@ -44,7 +44,8 @@ def getTranslation(wordURL, language2):
         else:
             return parser[1]
         
-
+        
+# функция для проверки наличия интернета и активности сайта
 def isConnected():
     try:
         if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):
@@ -57,3 +58,10 @@ def isConnected():
         return "urllib.error.URLError"
     else:
         return "yes"
+
+
+# функция для нахождения не-кириллических символов или пробелов в слове
+def isCyrillic(entryWord):
+    for i in str(entryWord.get()):
+            if not bool(re.search('[\u0400-\u04FF]', i)):
+                raise StopIteration
