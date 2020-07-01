@@ -6,7 +6,12 @@ import re
 # кастомное исключение при подключении к нерабочему сайту
 class noSiteConnectionError(Exception):
     pass
-        
+
+# кортеж, содержащий все сокращения для идентификации языков
+language = ('be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
+            'hsb',  'dsb',  'pox',  'pl',  'cs', 'sk',  'sl',
+            'hr',  'sr',  'sh',  'bs',  'mk',  'bg',  'cu', )
+
         
 # функция для получения перевода
 def getTranslation(wordURL, language2):
@@ -65,3 +70,4 @@ def isCyrillic(entryWord):
     for i in str(entryWord.get()):
             if not bool(re.search('[\u0400-\u04FF]', i)):
                 raise StopIteration
+            
