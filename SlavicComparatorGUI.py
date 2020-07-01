@@ -35,13 +35,13 @@ def createLabels():
     global labelsList
     
     # создание самих label'ов с текстом
-    L0 = Label(window, text = "ВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ")
+    L0 = Label(window, text = "\nВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
     L1 = Label(window, text = "Белорусский:")
     L2 = Label(window, text = "Украинский:")
     L3 = Label(window, text = "Русинский:")
     L4 = Label(window, text = "Древнерусский:")
     
-    L5 = Label(window, text = "\nЗАПАДНОСЛАВЯНСКИЕ ЯЗЫКИ")
+    L5 = Label(window, text = "\nЗАПАДНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
     L6 = Label(window, text = "Польский:")
     L7 = Label(window, text = "Кашубский:")
     L8 = Label(window, text = "Силезский:")
@@ -51,7 +51,7 @@ def createLabels():
     L12 = Label(window, text = "Чешский:")
     L13 = Label(window, text = "Словацкий:")
     
-    L14 = Label(window, text = "\nЮЖНОСЛАВЯНСКИЕ ЯЗЫКИ")
+    L14 = Label(window, text = "\nЮЖНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
     L15 = Label(window, text = "Словенский:")
     L16 = Label(window, text = "Хорватский:")
     L17 = Label(window, text = "Сербский:")
@@ -67,8 +67,21 @@ def createLabels():
                   L16, L17, L18, L19, L20, L21, L22]
     
     # размещение label'ов в цикле
+    a = 3
+    b = 3
+    c = 3
+    
     for i in range(0, 23):
-        labelsList[i].grid(column = 0, row = i+3)
+        if i > 4:
+            if i > 13:
+                labelsList[i].grid(column = 2, row = c)
+                c += 1
+            else:
+                labelsList[i].grid(column = 1, row = b)
+                b += 1
+        else:
+            labelsList[i].grid(column = 0, row = a)
+            a += 1
     
 
 # основная часть программы
