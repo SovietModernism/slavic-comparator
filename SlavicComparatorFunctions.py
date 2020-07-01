@@ -9,7 +9,7 @@ class noSiteConnectionError(Exception):
 
 # кортеж, содержащий все сокращения для идентификации языков
 language = ('be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
-            'hsb',  'dsb',  'pox',  'pl',  'cs', 'sk',  'sl',
+            'hsb',  'dsb',  'pox',  'cs', 'sk',  'sl',
             'hr',  'sr',  'sh',  'bs',  'mk',  'bg',  'cu', )
 
         
