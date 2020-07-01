@@ -112,18 +112,18 @@ elif scf.isConnected() == "yes":
  
     # начальный текст
     entryText = Label(window, text = "Введите слово на русском:")
-    entryText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
+    entryText.grid(column = 0, row = 0, padx = 10, pady = 10, sticky = "w")
     entryText.config(font = ("Times New Roman", 13))
 
     # строка с вводом
     entryWord = StringVar()    # переменная с текстом, введённым в виджет
     entryWidget = Entry(window, width = 40, textvariable = entryWord)
-    entryWidget.grid(column = 1, row = 0, padx = 5, pady = 5)
+    entryWidget.grid(column = 1, row = 0, padx = 5, pady = 10)
     entryWidget.config(font = ("Times New Roman", 13))
 
     # кнопка для начала поиска
     startButton = Button(window, text = "Начать перевод", command = buttonClicked)
-    startButton.grid(column = 2, row = 0, padx = 40, pady = 5)
+    startButton.grid(column = 2, row = 0, padx = 50, pady = 10)
     startButton.config(font = ("Times New Roman", 11))
 
     # предупреждающий об ошибке текст, если введённое слово неверное
