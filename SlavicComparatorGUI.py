@@ -17,9 +17,7 @@ def buttonClicked():
     global warningText
     try:
         
-        for i in str(entryWord.get()):
-            if not bool(re.search('[\u0400-\u04FF]', i)):
-                raise StopIteration
+        scf.isCyrillic(entryWord)
                 
     except StopIteration:
             anErrorOnceOccured = True
@@ -28,12 +26,43 @@ def buttonClicked():
     else:
         if anErrorOnceOccured:
             warningText.grid_forget()
-        mainProgramPart()
+        doTranslate()
 
 
+# создаёт пустые label'ы-заготовки для языков и вносит их в список
+def createLabels():
+    
+    global labelsList
+    
+    L1 = Label(window)
+    L2 = Label(window)
+    L3 = Label(window)
+    L4 = Label(window)
+    L5 = Label(window)
+    L6 = Label(window)
+    L7 = Label(window)
+    L8 = Label(window)
+    L9 = Label(window)
+    L10 = Label(window)
+    L11 = Label(window)
+    L12 = Label(window)
+    L13 = Label(window)
+    L14 = Label(window)
+    L15 = Label(window)
+    L16 = Label(window)
+    L17 = Label(window)
+    L18 = Label(window)
+    L19 = Label(window)
+    L20 = Label(window)
+    L21 = Label(window)
+    
+    labelsList = [L1, L2, L3, L4, L5, L6, L7, L8,
+                         L9, L10, L11, L12, L13, L14, L15,
+                         L16, L17, L18, L19, L20, L21]
+    
 
 # основная часть программы
-def mainProgramPart():
+def doTranslate():
     pass
 
 
@@ -81,5 +110,7 @@ elif scf.isConnected() == "yes":
 
     # отслеживаем лимит
     entryWord.trace("w", lambda *args: character_limit(entryWord))
+    
+    createLabels()
 
     window.mainloop
