@@ -4,6 +4,8 @@ from tkinter import *
 # переменная для проверки, была ли уже неудачная попытка ввести слово
 anErrorOnceOccured = None
 
+# переменная для проверки, переводилось ли уже что-нибудь
+translatedAgain = False
 
 # лимит на 30 вводимых символов в строке
 def character_limit(entryWord):
@@ -78,7 +80,7 @@ def createLabels():
     L16t.set("Хорватский: ")
     
     L17t = StringVar()
-    L17t.set("Сербский:")
+    L17t.set("Сербский: ")
     
     L18t = StringVar()
     L18t.set("Сербохорватский: ")
@@ -149,23 +151,54 @@ def createLabels():
         else:
             labelsGridList[i].grid(column = 0, row = a)
             a += 1
-    
+
+
+#
+def labelsToDefault():
+
+    textVariablesList[0].set("Белорусский: ")
+    textVariablesList[1].set("Украинский: ")
+    textVariablesList[2].set("Русинский: ")
+    textVariablesList[3].set("Древнерусский: ")
+    textVariablesList[4].set("Польский: ")
+    textVariablesList[5].set("Кашубский: ")
+    textVariablesList[6].set("Силезский: ")
+    textVariablesList[7].set("Верхнелужицкий: ")
+    textVariablesList[8].set("Нижнелужицкий: ")
+    textVariablesList[9].set("Полабский: ")
+    textVariablesList[10].set("Чешский: ")
+    textVariablesList[11].set("Словацкий: ")
+    textVariablesList[12].set("Словенский: ")
+    textVariablesList[13].set("Хорватский: ")
+    textVariablesList[14].set("Сербский: ")
+    textVariablesList[15].set("Сербохорватский: ")
+    textVariablesList[16].set("Боснийский: ")
+    textVariablesList[17].set("Македонский: ")
+    textVariablesList[18].set("Болгарский: ")
+    textVariablesList[19].set("Церковнославянский: ")
+
 
 # функция, добавляющая label'ам перевод
 def doTranslate():
-
+    
+    global translatedAgain
+    if translatedAgain:
+        labelsToDefault()
+    
     translation = ""
     for i in range(0, 20):
         translation = scf.getTranslation(entryWord, scf.language[i])
         textVariablesList[i].set(textVariablesList[i].get() + translation)
-
+    
+    translatedAgain = True
 
 
 
 # настройки окна
 window = Tk()
 window.title("Slavic Comparator")
-window.geometry('1000x500')
+window.geometry('1100x500')
+window.resizable(False, False)
 
 # проверка на активность сайта, а также на наличие интернета
 if scf.isConnected() == "noSiteConnectionError":
@@ -179,7 +212,6 @@ elif scf.isConnected() == "urllib.error.URLError":
     noConnectText.config(font = ("Times New Roman", 10), fg = "red")
     
 elif scf.isConnected() == "yes":
- 
     # начальный текст
     entryText = Label(window, text = "Введите слово на русском:")
     entryText.grid(column = 0, row = 0, padx = 10, pady = 10, sticky = "w")
@@ -203,7 +235,7 @@ elif scf.isConnected() == "yes":
 
     # отслеживаем лимит
     entryWord.trace("w", lambda *args: character_limit(entryWord))
-    
+        
     createLabels()
 
     window.mainloop
