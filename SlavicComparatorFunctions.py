@@ -12,7 +12,7 @@ language = ('be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
             'hsb',  'dsb',  'pox',  'cs', 'sk',  'sl',
             'hr',  'sr',  'sh',  'bs',  'mk',  'bg',  'cu', )
 
-        
+
 # функция для получения перевода
 def getTranslation(entryWord, language2):
 
@@ -37,11 +37,14 @@ def getTranslation(entryWord, language2):
     parser.remove('success')
     parser.remove('True')
 
-    # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
+    # проверка, действительно ли было переведено нужное слово,
+    # либо же просто что-то похожее
     if (parser[0] != word):
         return "нет информации"
+
     else:
-        # дополнительные переводы включаются в результат, если те не совпадают с основным переводом
+        # дополнительный перевод включаются в результат,
+        # если он никак не совпадает с основным переводом
         if (len(parser) >= 3):
             if parser[1] != parser[2].lower():
                 return parser[1] + ' / ' + parser[2]
@@ -51,8 +54,8 @@ def getTranslation(entryWord, language2):
                 return parser[1]
         else:
             return parser[1]
-        
-        
+
+
 # функция для проверки наличия интернета и активности сайта
 def isConnected():
     try:
@@ -71,6 +74,5 @@ def isConnected():
 # функция для нахождения не-кириллических символов или пробелов в слове
 def isCyrillic(entryWord):
     for i in str(entryWord.get()):
-            if not bool(re.search('[\u0400-\u04FF]', i)):
-                raise StopIteration
-            
+        if not bool(re.search('[\u0400-\u04FF]', i)):
+            raise StopIteration
