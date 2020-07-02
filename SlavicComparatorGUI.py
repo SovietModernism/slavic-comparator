@@ -144,16 +144,19 @@ def createLabels():
         if i > 4:
             if i > 13:
                 labelsGridList[i].grid(column = 2, row = c)
+                labelsGridList[i].config(font = ("Times New Roman", 10))
                 c += 1
             else:
                 labelsGridList[i].grid(column = 1, row = b)
+                labelsGridList[i].config(font = ("Times New Roman", 10))
                 b += 1
         else:
             labelsGridList[i].grid(column = 0, row = a)
+            labelsGridList[i].config(font = ("Times New Roman", 10))
             a += 1
 
 
-#
+# функия, приводящая текст в label'ах к исходному
 def labelsToDefault():
 
     textVariablesList[0].set("Белорусский: ")
@@ -212,10 +215,11 @@ elif scf.isConnected() == "urllib.error.URLError":
     noConnectText.config(font = ("Times New Roman", 10), fg = "red")
     
 elif scf.isConnected() == "yes":
+
     # начальный текст
     entryText = Label(window, text = "Введите слово на русском:")
     entryText.grid(column = 0, row = 0, padx = 10, pady = 10, sticky = "w")
-    entryText.config(font = ("Times New Roman", 13))
+    entryText.config(font = ("Times New Roman", 13, "bold"))
 
     # строка с вводом
     entryWord = StringVar()    # переменная с текстом, введённым в виджет
