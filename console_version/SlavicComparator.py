@@ -9,7 +9,7 @@ class noSiteConnectionError(Exception):
     pass
 
 # кортеж из языков, использующих кириллицу (не включены сербохорватский и церковнославянский)
-cyrLanguages = {'uk', 'be', 'rue', 'orv', 'sr', 'bg', 'mk', }
+cyrLanguages = {'be', 'uk', 'rue', 'orv', 'sr', 'bg', 'mk', }
 
 
 def getTranslation(wordURL, language2):
@@ -21,16 +21,20 @@ def getTranslation(wordURL, language2):
     with urllib.request.urlopen(source) as url:
         data = json.loads(url.read().decode())
 
-    # словарь превращается в строку, отсеиваются все слова
+    # словарь превращается в строку для возможности её обработки,
+    # отсеиваются все лишние элементы, и ключевые слова заносятся в parser
     data = str(data)
-    parser = re.findall(r'\w+', data)
+    parser = re.sub(r'\,|\{|\}|\[|\]|\:|\: True', '', data)
+    parser = re.sub(r'\' \'', '\'', parser)
+    parser = re.sub(r'^\'|\'$', '', parser)
+    parser = parser.split("\'")
 
     # удаление ненужных технических слов
     parser.remove('after')
     parser.remove('phrase')
     parser.remove('translations')
     parser.remove('success')
-    parser.remove('True')
+
 
     # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
     if (parser[0] != word):
@@ -45,14 +49,14 @@ def getTranslation(wordURL, language2):
             
             if parser[1] != parser[2].lower():
                 # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
-                if language2 in cyrLanguages and not isFullyCyrillic(parser[2]):
+                if language2 in cyrLanguages and not isFullyCyrillic(parser[2], True):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[2]
             
             elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
                 # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
-                if language2 in cyrLanguages and not isFullyCyrillic(parser[3]):
+                if language2 in cyrLanguages and not isFullyCyrillic(parser[3], True):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[3]
@@ -64,12 +68,16 @@ def getTranslation(wordURL, language2):
             return parser[1]
 
 
-def isFullyCyrillic(text):    # проверка на кириллическое слово и наличие пробелов
+def isFullyCyrillic(text, allowWhitespace):    # проверка на кириллическое слово и наличие пробелов
     try:
-
-        for i in text:
-            if not bool(re.search('[\u0400-\u04FF]', i)):
-                raise StopIteration
+        if allowWhitespace:
+            for i in text:
+                if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":
+                    raise StopIteration
+        else:
+            for i in text:
+                if not bool(re.search('[\u0400-\u04FF]', i)):
+                    raise StopIteration
 
     except StopIteration:
         # цикл был прерван -> есть не-кириллическая буква
@@ -100,7 +108,7 @@ else:
             word = input()
 
             if len(word) <= 30:
-                if isFullyCyrillic(word):
+                if isFullyCyrillic(word, False):
                     # перекодирование слова в URL-стиль для дальнейшей работы с ним
                     wordURL = urllib.parse.quote(word)
                     break
