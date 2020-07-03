@@ -55,14 +55,14 @@ def getTranslation(entryWord, language2):
             
             if parser[1] != parser[2].lower():
                 # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
-                if language2 in cyrLanguages and not isFullyCyrillic(parser[2]):
+                if language2 in cyrLanguages and not isWordCyrillic(parser[2]):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[2]
             
             elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
                 # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
-                if language2 in cyrLanguages and not isFullyCyrillic(parser[3]):
+                if language2 in cyrLanguages and not isWordCyrillic(parser[3]):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[3]
@@ -90,7 +90,14 @@ def isConnected():
 
 
 # функция для нахождения не-кириллических символов или пробелов в слове
-def isCyrillic(entryWord):
+def isEntryCyrillic(entryWord):
     for i in str(entryWord.get()):
         if not bool(re.search('[\u0400-\u04FF]', i)):
             raise StopIteration
+
+def isWordCyrillic(word):
+    for i in word:
+        if not bool(re.search('[\u0400-\u04FF]', i)):
+            return True
+        else:
+            return False

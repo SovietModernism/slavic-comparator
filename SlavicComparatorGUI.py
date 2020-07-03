@@ -21,7 +21,7 @@ def buttonClicked():
     global warningText
     
     try:
-        scf.isCyrillic(entryWord)
+        scf.isEntryCyrillic(entryWord)
                 
     except StopIteration:
             anErrorOnceOccured = True
