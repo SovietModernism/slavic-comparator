@@ -102,6 +102,6 @@ def isEntryCyrillic(entryWord):
 def isWordCyrillic(word):
     for i in word:
         if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":
-            return True
-        else:
             return False
+        else:
+            return True
