@@ -13,6 +13,10 @@ language = ('be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
             'hr',  'sr',  'sh',  'bs',  'mk',  'bg',  'cu', )
 
 
+# кортеж из языков, использующих кириллицу (не включены сербохорватский и церковнославянский)
+cyrLanguages = {'uk', 'be', 'rue', 'orv', 'sr', 'bg', 'mk', }
+
+
 # функция для получения перевода
 def getTranslation(entryWord, language2):
 
