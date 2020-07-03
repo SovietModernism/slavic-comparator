@@ -148,16 +148,16 @@ def createLabels():
         
         if i > 4:
             if i > 13:
-                labelsGridList[i].grid(column = 2, row = c)
+                labelsGridList[i].grid(column = 2, row = c, sticky = 'w')
                 c += 1
             else:
-                labelsGridList[i].grid(column = 1, row = b)
+                labelsGridList[i].grid(column = 1, row = b, sticky = 'w')
                 b += 1
         else:
-            labelsGridList[i].grid(column = 0, row = a)
+            labelsGridList[i].grid(column = 0, row = a, sticky = 'w')
             a += 1
-
-
+    
+    
 # функия, приводящая текст в label'ах к исходному
 def labelsToDefault():
 
