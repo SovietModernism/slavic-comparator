@@ -204,7 +204,7 @@ def doTranslate():
 # настройки окна
 window = Tk()
 window.title("Slavic Comparator")
-window.geometry('1100x400')
+window.geometry('1300x400')
 window.resizable(False, False)
 
 # проверка на активность сайта, а также на наличие интернета
