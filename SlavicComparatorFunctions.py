@@ -30,22 +30,26 @@ def getTranslation(entryWord, language2):
     with urllib.request.urlopen(source) as url:
         data = json.loads(url.read().decode())
 
-    # словарь превращается в строку, отсеиваются все слова
+    # словарь превращается в строку для возможности её обработки,
+    # отсеиваются все лишние элементы, и ключевые слова заносятся в parser
     data = str(data)
-    parser = re.findall(r'\w+', data)
+    parser = re.sub(r'\,|\{|\}|\[|\]|\:|\: True', '', data)
+    parser = re.sub(r'\' \'', '\'', parser)
+    parser = re.sub(r' True', '', parser)    # для предотвращения ошибок, когда с первого раза не был убран
+    parser = re.sub(r'^\'|\'$', '', parser)
+    parser = parser.split("\'")
+
 
     # удаление ненужных технических слов
     parser.remove('after')
     parser.remove('phrase')
     parser.remove('translations')
     parser.remove('success')
-    parser.remove('True')
 
-    # проверка, действительно ли было переведено нужное слово,
-    # либо же просто что-то похожее
+    # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
     if (parser[0] != word):
         return "нет информации"
-
+    
     else:
         
         # если суммарное число переводов больше 3, при этом
@@ -97,7 +101,7 @@ def isEntryCyrillic(entryWord):
 
 def isWordCyrillic(word):
     for i in word:
-        if not bool(re.search('[\u0400-\u04FF]', i)):
+        if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":
             return True
         else:
             return False
