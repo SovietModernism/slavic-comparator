@@ -8,6 +8,9 @@ import os
 class noSiteConnectionError(Exception):
     pass
 
+# кортеж из языков, использующих кириллицу (не включены сербохорватский и церковнославянский)
+cyrLanguages = {'uk', 'be', 'rue', 'orv', 'sr', 'bg', 'mk', }
+
 
 def getTranslation(wordURL, language2):
 
@@ -32,15 +35,31 @@ def getTranslation(wordURL, language2):
     # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
     if (parser[0] != word):
         return "нет информации"
+    
     else:
-        # дополнительные переводы включаются в результат, если те не совпадают с основным переводом
+        
+        # если суммарное число переводов больше 3, при этом
+        # второй/третий перевод не совпадает с основным, то его
+        # можно включить в выводимый результат
         if (len(parser) >= 3):
+            
             if parser[1] != parser[2].lower():
-                return parser[1] + ' / ' + parser[2]
+                # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
+                if language2 in cyrLanguages and not isFullyCyrillic(parser[2]):
+                    return parser[1]
+                else:
+                    return parser[1] + ' / ' + parser[2]
+            
             elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
-                return parser[1] + ' / ' + parser[3]
+                # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
+                if language2 in cyrLanguages and not isFullyCyrillic(parser[3]):
+                    return parser[1]
+                else:
+                    return parser[1] + ' / ' + parser[3]
+            
             else:
                 return parser[1]
+            
         else:
             return parser[1]
 
