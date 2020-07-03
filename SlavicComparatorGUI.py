@@ -1,6 +1,7 @@
 import SlavicComparatorFunctions as scf   # локальный модуль с функциями
 from tkinter import *
 
+
 # переменная для проверки, была ли уже неудачная попытка ввести слово
 anErrorOnceOccured = None
 
@@ -15,15 +16,16 @@ def character_limit(entryWord):
 
 # событие при клике на кнопку поиска
 def buttonClicked():
+    
     global anErrorOnceOccured
     global warningText
+    
     try:
-        
         scf.isCyrillic(entryWord)
                 
     except StopIteration:
             anErrorOnceOccured = True
-            warningText.grid(column = 0, row = 1, padx = 5, columnspan = 2, sticky = "w")
+            warningText.grid(column = 0, row = 1, padx = 13, columnspan = 2, sticky = "w")
             
     else:
         if anErrorOnceOccured:
@@ -36,7 +38,7 @@ def createLabels():
     
     global textVariablesList
     
-    # создание переменных для хранения текста
+    # создание переменных для хранения текста и их инициализация
     L1t = StringVar()
     L1t.set("Белорусский: ")
     
@@ -135,13 +137,15 @@ def createLabels():
                          L9t, L10t, L11t, L12t, L13t, L15t,
                          L16t, L17t, L18t, L19t, L20t, L21t, L22t]
     
-    # размещение label'ов в окне
-    a = 3
-    b = 3
-    c = 3
+    # размещение label'ов в окне, а также задание им шрифта
+    a = 3    # восточнославянские
+    b = 3    # западнославянские
+    c = 3    # южнославянские
     
     for i in range(0, 23):
+        
         labelsGridList[i].config(font = ("Times New Roman", 10))
+        
         if i > 4:
             if i > 13:
                 labelsGridList[i].grid(column = 2, row = c)
@@ -152,9 +156,6 @@ def createLabels():
         else:
             labelsGridList[i].grid(column = 0, row = a)
             a += 1
-            
-    for i in range(0, 19):
-        labels.GridList[i].config(font = ("Times New Roman", 9))
 
 
 # функия, приводящая текст в label'ах к исходному
@@ -186,6 +187,8 @@ def labelsToDefault():
 def doTranslate():
     
     global translatedAgain
+    # возврат к исходным значениям, чтобы переводы
+    # не накладывались друг на друга
     if translatedAgain:
         labelsToDefault()
     
@@ -207,13 +210,13 @@ window.resizable(False, False)
 # проверка на активность сайта, а также на наличие интернета
 if scf.isConnected() == "noSiteConnectionError":
     noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
-    noSiteText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
-    noSiteText.config(font = ("Times New Roman", 13), fg = "red")
+    noSiteText.grid(column = 0, row = 0, padx = 13, pady = 5, sticky = "w")
+    noSiteText.config(font = ("Times New Roman", 11), fg = "red")
     
 elif scf.isConnected() == "urllib.error.URLError":
     noConnectText = Label(window, text = "Этой программе требуется наличие интернета, подключения к которому сейчас нет, либо же сайт Glosbe просто стал недоступен.")
-    noConnectText.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "w")
-    noConnectText.config(font = ("Times New Roman", 10), fg = "red")
+    noConnectText.grid(column = 0, row = 0, padx = 13, pady = 5, sticky = "w")
+    noConnectText.config(font = ("Times New Roman", 11), fg = "red")
     
 elif scf.isConnected() == "yes":
 
@@ -223,7 +226,7 @@ elif scf.isConnected() == "yes":
     entryText.config(font = ("Times New Roman", 14))
 
     # строка с вводом
-    entryWord = StringVar()    # переменная с текстом, введённым в виджет
+    entryWord = StringVar()
     entryWidget = Entry(window, width = 40, textvariable = entryWord)
     entryWidget.grid(column = 1, row = 0, padx = 5, pady = 10)
     entryWidget.config(font = ("Times New Roman", 13))
