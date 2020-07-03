@@ -148,17 +148,17 @@ def createLabels():
         
         if i > 4:
             if i > 13:
-                labelsGridList[i].grid(column = 2, row = c, sticky = 'w')
+                labelsGridList[i].grid(column = 2, row = c, padx = 5, sticky = 'w')
                 c += 1
             else:
-                labelsGridList[i].grid(column = 1, row = b, sticky = 'w')
+                labelsGridList[i].grid(column = 1, row = b, padx = 5, sticky = 'w')
                 b += 1
         else:
-            labelsGridList[i].grid(column = 0, row = a, sticky = 'w')
+            labelsGridList[i].grid(column = 0, row = a, padx = 13, sticky = 'w')
             a += 1
     
     
-# функия, приводящая текст в label'ах к исходному
+# функция, приводящая текст в label'ах к исходному
 def labelsToDefault():
 
     textVariablesList[0].set("Белорусский: ")
