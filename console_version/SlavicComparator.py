@@ -26,6 +26,7 @@ def getTranslation(wordURL, language2):
     data = str(data)
     parser = re.sub(r'\,|\{|\}|\[|\]|\:|\: True', '', data)
     parser = re.sub(r'\' \'', '\'', parser)
+    parser = re.sub(r' True', '', parser)    # для предотвращения ошибок, когда с первого раза не был убран
     parser = re.sub(r'^\'|\'$', '', parser)
     parser = parser.split("\'")
 
