@@ -144,7 +144,7 @@ def createLabels():
     
     for i in range(0, 23):
         
-        labelsGridList[i].config(font = ("Times New Roman", 10))
+        labelsGridList[i].config(font = ("Times New Roman", 11))
         
         if i > 4:
             if i > 13:
@@ -204,7 +204,7 @@ def doTranslate():
 # настройки окна
 window = Tk()
 window.title("Slavic Comparator")
-window.geometry('1300x400')
+window.geometry('1350x400')
 window.resizable(False, False)
 
 # проверка на активность сайта, а также на наличие интернета
