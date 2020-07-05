@@ -1,18 +1,18 @@
 # SlavicComparator
 Small program written in Python, allowing you to input a word in **English** / **Russian** and get its translations from all other Slavic languages. Translations are done with Glosbe API, GUI implemented with Tkinter.
 
-Note that I initially started to code this project in Russian, eventually coming up with the idea it should be in English as well. That's why it has **two versions**, for both languages. The only difference between them is their interface and the word you input (either in Russian or English).
+Note that I initially started to code this project in Russian (with commits in Russian etc), eventually coming up with the idea it should be in English as well. That's why it has **two versions**, for both languages. The only difference between them is their interface and the word you input (either in Russian or English).
 
 Now to the files and folders:
 
-* **SlavicComparatorGUI.py** - основная часть программы.
+* **SlavicComparatorGUI.py** - the program's main part
 
-* **SlavicComparatorFunctions.py** - модуль, в который были выведены все функции, никак не взаимодействующие с Tkinter (только посредством основной части).
+* **SlavicComparatorFunctions.py** - module keeping all the functions which don't directly interact with Tkinter (only through the main part).
 
-* **/console_version** - папка, в которой хранится консольная версия программы. Её более удобно использовать для отладки программы и поиска ошибок (главный код там почти одинаковый), да и работает немного быстрее.
+* **/console_version** - folder keeping console versions of the program. Might be easier to use them in terms of debug, also work faster a bit
 
 
-Известные (потенциальные) ошибки:
+Known (potential) bugs:
 
 * Если в наборе данных, полученных c Glosbe API, появится ещё какое-нибудь лишнее техническое слово, то результат перевода может оказаться неправильным. Для уже известных мне "аномальных" данных есть регулярные выражения, все эти данные обрабатывающие - если появится что-то новое, то это скорее всего сразу будет заметно.
 
