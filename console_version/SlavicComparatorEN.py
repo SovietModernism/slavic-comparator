@@ -51,6 +51,7 @@ def getTranslation(word, language2):
                 # if the 2nd language uses Cyrillic script, but the translated word has some different letters
                 if language2 in cyrLanguages and not isFullyCyrillic(parser[2]):
                     return parser[1]
+                
                 else:
                     return parser[1] + ' / ' + parser[2]
 
@@ -58,6 +59,7 @@ def getTranslation(word, language2):
                 # if the 2nd language uses Cyrillic script, but the translated word has some different letters
                 if language2 in cyrLanguages and not isFullyCyrillic(parser[3]):
                     return parser[1]
+                
                 else:
                     return parser[1] + ' / ' + parser[3]
 
@@ -71,9 +73,9 @@ def getTranslation(word, language2):
 # check if word is written in Cyrillic only (whitespaces allowed)
 def isFullyCyrillic(text):
     try:
-            for i in text:
-                if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":
-                    raise StopIteration
+        for i in text:
+            if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":
+                raise StopIteration
 
     except StopIteration:
         # the loop was interrupted -> has non-Cyrillic letters
@@ -87,9 +89,9 @@ def isFullyCyrillic(text):
 # check if word is written in Latin only (whitespaces NOT allowed, it's for input)
 def isFullyLatin(text):
     try:
-            for i in text:
-                if not bool(re.search('[\u0041-\u005A]|[\u0061-\u007A]', i)):
-                    raise StopIteration
+        for i in text:
+            if not bool(re.search('[\u0041-\u005A]|[\u0061-\u007A]', i)):
+                raise StopIteration
 
     except StopIteration:
         # the loop was interrupted -> has non-Latin letters
@@ -122,7 +124,6 @@ else:
             if len(word) <= 30:
                 if isFullyLatin(word):
 
-                    #word = urllib.parse.quote(word)
                     break
 
                 else:
@@ -132,7 +133,7 @@ else:
 
         try:
             print("\nEAST SLAVIC LANGUAGES\n")
-            
+
             print("Russian: ", getTranslation(word, 'ru'))
             print("Belorussian: ", getTranslation(word, 'be'))
             print("Ukrainian: ", getTranslation(word, 'uk'))
