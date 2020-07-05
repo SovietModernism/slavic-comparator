@@ -1,5 +1,5 @@
 # SlavicComparator
-Небольшая программа на Python, позволяющая ввести слово на русском и получить его переводы с других славянских языков. Переводы выполняются с помощью API сайта Glosbe, GUI написано на Tkinter.
+Small program written in Python, allowing you to input a word in English/Russian and get its translations from all other Slavic languages. Translations are done with Glosbe API, GUI implemented with Tkinter.
 
 **SlavicComparatorGUI.py** - основная часть программы.
 
