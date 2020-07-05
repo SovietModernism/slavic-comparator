@@ -1,11 +1,15 @@
 # SlavicComparator
-Small program written in Python, allowing you to input a word in English/Russian and get its translations from all other Slavic languages. Translations are done with Glosbe API, GUI implemented with Tkinter.
+Small program written in Python, allowing you to input a word in **English** / **Russian** and get its translations from all other Slavic languages. Translations are done with Glosbe API, GUI implemented with Tkinter.
 
-**SlavicComparatorGUI.py** - основная часть программы.
+Note that I initially started to code this project in Russian, eventually coming up with the idea it should be in English as well. That's why it has **two versions**, for both languages. The only difference between them is their interface and the word you input (either in Russian or English).
 
-**SlavicComparatorFunctions.py** - модуль, в который были выведены все функции, никак не взаимодействующие с Tkinter (только посредством основной части).
+Now to the files and folders:
 
-**/console_version** - папка, в которой хранится консольная версия программы. Её более удобно использовать для отладки программы и поиска ошибок (главный код там почти одинаковый), да и работает немного быстрее.
+* **SlavicComparatorGUI.py** - основная часть программы.
+
+* **SlavicComparatorFunctions.py** - модуль, в который были выведены все функции, никак не взаимодействующие с Tkinter (только посредством основной части).
+
+* **/console_version** - папка, в которой хранится консольная версия программы. Её более удобно использовать для отладки программы и поиска ошибок (главный код там почти одинаковый), да и работает немного быстрее.
 
 
 Известные (потенциальные) ошибки:
