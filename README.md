@@ -11,7 +11,6 @@ Now to the files and folders:
 
 * **/console_version** - folder keeping console versions of the program. Might be easier to use them in terms of debug, also work faster a bit
 
-
 Known (potential) bugs:
 
 * Если в наборе данных, полученных c Glosbe API, появится ещё какое-нибудь лишнее техническое слово, то результат перевода может оказаться неправильным. Для уже известных мне "аномальных" данных есть регулярные выражения, все эти данные обрабатывающие - если появится что-то новое, то это скорее всего сразу будет заметно.
