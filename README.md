@@ -1,22 +1,20 @@
 # SlavicComparator
-Small program written in Python, allowing you to input a word in **English** / **Russian** and get its translations from all other Slavic languages. Translations are done with Glosbe API, GUI implemented with Tkinter.
+Small program written in Python, allowing you to input a word in **English** / **Russian** and get its translations from all other Slavic languages. Translations are done with **Glosbe API**, GUI implemented with **Tkinter**.
 
-Note that I initially started to code this project in Russian (with commits in Russian etc), eventually coming up with the idea it should be in English as well. That's why it has **two versions**, for both languages. The only difference between them is their interface and the word you input (either in Russian or English).
+N.B.: I initially started to work on this project in Russian (with comments in Russian e.g.), eventually coming up with the idea it should be in English as well. That's why it has **two versions**, for both languages. The only difference between them is their interface and the word you input (either in Russian or English).
 
 Now to the files and folders:
 
-* **SlavicComparatorGUI.py** - the program's main part
+* **SlavicComparatorGUI.py** — program's main part
 
-* **SlavicComparatorFunctions.py** - module keeping all the functions which don't directly interact with Tkinter (only through the main part).
+* **SlavicComparatorFunctions.py** — module keeping all the functions which don't directly interact with Tkinter (only through the main part)
 
-* **/console_version** - folder keeping console versions of the program. Might be easier to use them in terms of debug, also work faster a bit
+* **/console_version** — folder keeping console versions of the program. Might be easier to use them in terms of debug, also work a bit faster
 
-* **/exe_binaries** - folder keeping executable files if you need them to work without Python interpreter. I compiled it all in advance with using cx_Freeze.
+* **/exe_binaries** — folder keeping executable files if you need them to work without Python interpreter. I compiled it all in advance via cx_Freeze
 
 Known (potential) bugs:
 
-* Если в наборе данных, полученных c Glosbe API, появится ещё какое-нибудь лишнее техническое слово, то результат перевода может оказаться неправильным. Для уже известных мне "аномальных" данных есть регулярные выражения, все эти данные обрабатывающие - если появится что-то новое, то это скорее всего сразу будет заметно.
+* From **Glosbe API** I obtain a dataset which not only contains translations, but unnecessary technical words and symbols as well. Of course I wrote regular expressions in order to get only the data needed... but let's imagine some **new** technicall stuff suddenly appears — an error will occure then. Or the translation results will be just incorrect, at best. However, a chance it will even happen ("garbage" magically appears from nowhere) is extremely small.
 
-* Наличие в латинских словах (из перевода) похожих кириллических символов никак не обработано. Например, если два перевода будут отличаться лишь буквой "о" (одна из которых - латинская, а другая - кириллическая), то программа сочтёт эти два слова разными и выведет их вместе, хоть визуально они и одинаковы. Тем не менее, такой ситуации я сам ещё не встречал, в отличие от обратной (наличие латинских букв в кириллическом слове), однако вот это уже обработано.
-
-* В консольной версии программы некоторые символы могут не отображаться. Особенно хорошо это видно на примере церковнославянских слов, которые иногда записаны глаголицей.
+* In the console version of the program, some characters may not be displayed correctly. This is especially true for Church Slavonic words, which are written in Glagolitic script sometimes.
