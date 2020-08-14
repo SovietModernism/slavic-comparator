@@ -1,21 +1,21 @@
-import SlavicComparatorFunctions as scf   # локальный модуль с функциями
+import SlavicComparatorFunctions as scf   # local module with functions
 from tkinter import *
 from ctypes import windll
 
 
-# переменная для проверки, была ли уже неудачная попытка ввести слово
+# bool for checking, if there was an unsuccessful try to input a word
 anErrorOnceOccured = None
 
-# переменная для проверки, переводилось ли уже что-нибудь
+# bool for checking, if anything was once translated
 translatedAgain = False
 
-# лимит на 30 вводимых символов в строке
+# limit of 30 symbols in the string you input
 def character_limit(entryWord):
     if len(entryWord.get()) > 30:
         entryWord.set(entryWord.get()[:30])
 
 
-# событие при клике на кнопку поиска
+# an event when clicking a button
 def buttonClicked():
 
     global anErrorOnceOccured
@@ -34,12 +34,12 @@ def buttonClicked():
         doTranslate()
 
 
-# создаёт пустые label'ы-заготовки для языков и вносит их в список
+# creates empty sample labels for languages, and list them
 def createLabels():
 
     global textVariablesList
 
-    # создание переменных для хранения текста и их инициализация
+    # creation and initialization of variables for keeping text
     L1t = StringVar()
     L1t.set("Белорусский: ")
 
@@ -101,7 +101,7 @@ def createLabels():
     L22t.set("Церковнославянский: ")
 
 
-    # создание самих label'ов с текстом
+    # creation of labels with text themselves
     L0 = Label(window, text = "\nВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
     L1 = Label(window, textvariable = L1t)
     L2 = Label(window, textvariable = L2t)
@@ -128,8 +128,8 @@ def createLabels():
     L21 = Label(window, textvariable = L21t)
     L22 = Label(window, textvariable = L22t)
 
-    # помещение label'ов и их текстовых переменных в списки
-    # первый список служит для размещения label'ов, второй - для изменения их текстовых значений
+    # listing of labels and their text variables.
+    # 1st one is needed for keeping labels, 2nd - for changing their text values
     labelsGridList = [L0, L1, L2, L3, L4, L5, L6, L7, L8,
                       L9, L10, L11, L12, L13, L14, L15,
                       L16, L17, L18, L19, L20, L21, L22]
@@ -138,10 +138,10 @@ def createLabels():
                          L9t, L10t, L11t, L12t, L13t, L15t,
                          L16t, L17t, L18t, L19t, L20t, L21t, L22t]
 
-    # размещение label'ов в окне, а также задание им шрифта
-    a = 3    # восточнославянские
-    b = 3    # западнославянские
-    c = 3    # южнославянские
+    # placing labels on window, as well as setting their font
+    a = 3    # east slavic
+    b = 3    # west slavic
+    c = 3    # south slavic
 
     for i in range(0, 23):
 
@@ -159,7 +159,7 @@ def createLabels():
             a += 1
 
 
-# функция, приводящая текст в label'ах к исходному
+# function that brings labels' text to default
 def labelsToDefault():
 
     textVariablesList[0].set("Белорусский: ")
@@ -184,12 +184,12 @@ def labelsToDefault():
     textVariablesList[19].set("Церковнославянский: ")
 
 
-# функция, добавляющая label'ам перевод
+# function that adds labels the translations
 def doTranslate():
 
     global translatedAgain
-    # возврат к исходным значениям, чтобы переводы
-    # не накладывались друг на друга
+    # returning to the default values, so
+    # text won't place over itself
     if translatedAgain:
         labelsToDefault()
 
@@ -202,17 +202,17 @@ def doTranslate():
 
 
 
-# настройки окна
+# window options
 window = Tk()
 window.title("Slavic Comparator")
 window.geometry('1350x400')
 window.resizable(False, False)
 
-# стандартизация размера и DPI окна для всех вариантов выполнения программы
+# standartization of DPI and the size of the window for all ways of executing a program
 window.call('tk', 'scaling', 1.7)
 windll.shcore.SetProcessDpiAwareness(1)
 
-# проверка на активность сайта, а также на наличие интернета
+# checking if there is an Internet connection, as well as if Glosbe site is online
 if scf.isConnected() == "noSiteConnectionError":
     noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
     noSiteText.grid(column = 0, row = 0, padx = 13, pady = 5, sticky = "w")
@@ -225,28 +225,28 @@ elif scf.isConnected() == "urllib.error.URLError":
 
 elif scf.isConnected() == "yes":
 
-    # начальный текст
+    # initial text
     entryText = Label(window, text = "Введите слово на русском:")
     entryText.grid(column = 0, row = 0, padx = 13, pady = 10, sticky = "w")
     entryText.config(font = ("Times New Roman", 14))
 
-    # строка с вводом
+    # string for input
     entryWord = StringVar()
     entryWidget = Entry(window, width = 40, textvariable = entryWord)
     entryWidget.grid(column = 1, row = 0, padx = 5, pady = 10)
     entryWidget.config(font = ("Times New Roman", 13))
 
-    # кнопка для начала поиска
+    # button for translation
     startButton = Button(window, text = "Начать перевод", command = buttonClicked)
     startButton.grid(column = 2, row = 0, padx = 50, pady = 10)
     startButton.config(font = ("Times New Roman", 11))
 
-    # предупреждающий об ошибке текст, если введённое слово неверное
+    # warning text, if input word is incorrect
     warningText = Label(window, text = "В слове присутствуют не-кириллические символы либо пробелы!")
     warningText.config(font = ("Times New Roman", 12), fg = "red")
     warningText.grid_forget()
 
-    # отслеживаем лимит
+    # tracking the symbol limit
     entryWord.trace("w", lambda *args: character_limit(entryWord))
 
     createLabels()
