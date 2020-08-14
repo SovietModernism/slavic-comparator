@@ -8,13 +8,13 @@ class noSiteConnectionError(Exception):
     pass
 
 # tuple containing all abbreviations for languages identification
-language = ('be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
-            'hsb',  'dsb',  'pox',  'cs', 'sk',  'sl',
-            'hr',  'sr',  'sh',  'bs',  'mk',  'bg',  'cu', )
+language = ('ru', 'be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
+            'hsb',  'dsb',  'pox',  'cs', 'sk',  'sl', 'hr',
+            'sr',  'sh',  'bs',  'mk',  'bg',  'cu', )
 
 
 # tuple of languages using Cyrillic script (Serbocroatian and Church Slavonic not included)
-cyrLanguages = {'uk', 'be', 'rue', 'orv', 'sr', 'bg', 'mk', }
+cyrLanguages = {'ru', 'uk', 'be', 'rue', 'orv', 'sr', 'bg', 'mk', }
 
 
 # function for getting one single translation
@@ -48,7 +48,7 @@ def getTranslation(entryWord, language2):
 
     # check if we translated the right word, or it was just something similar
     if (parser[0] != word):
-        return "нет информации"
+        return "no info"
 
     else:
 
@@ -93,13 +93,13 @@ def isConnected():
         return "yes"
 
 
-# function for finding non-Cyrillic letters in input
-def isEntryCyrillic(entryWord):
+# function for finding non-Latin letters in input
+def isEntryLatin(entryWord):
     for i in str(entryWord.get()):
-        if not bool(re.search('[\u0400-\u04FF]', i)):
+        if not bool(re.search('[\u0041-\u005A]|[\u0061-\u007A]', i)):
             raise StopIteration
 
-# same, but for usual words, not the input
+# same, but for usual Cyrillic words
 def isWordCyrillic(word):
     for i in word:
         if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":
