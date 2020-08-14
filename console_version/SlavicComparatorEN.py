@@ -21,22 +21,22 @@ def getTranslation(word, language2):
     with urllib.request.urlopen(source) as url:
         data = json.loads(url.read().decode())
 
-    # dictionnary is turned into a string to use regexp on it.
+    # dictionary turns into string so we can use regex on it.
     # excess elements are removed, parser takes the key words
     data = str(data)
     parser = re.sub(r'\,|\{|\}|\[|\]|\:|\: True', '', data)
     parser = re.sub(r'\' \'', '\'', parser)
-    parser = re.sub(r' True', '', parser)    # to prevent possible bug
+    parser = re.sub(r' True', '', parser)    # to prevent possible bug, when wasn't removed in 1st regex
     parser = re.sub(r'^\'|\'$', '', parser)
     parser = parser.split("\'")
 
-    # deleting unnecessary technical words
+    # removing unnecessary technical words
     parser.remove('after')
     parser.remove('phrase')
     parser.remove('translations')
     parser.remove('success')
 
-    # check if it's the right word which was translated
+    # check if we translated the right word, or it was just something similar
     if (parser[0] != word):
         return "no info"
 
@@ -135,7 +135,7 @@ else:
             print("\nEAST SLAVIC LANGUAGES\n")
 
             print("Russian: ", getTranslation(word, 'ru'))
-            print("Belorussian: ", getTranslation(word, 'be'))
+            print("Belarusian: ", getTranslation(word, 'be'))
             print("Ukrainian: ", getTranslation(word, 'uk'))
             print("Rusyn: ", getTranslation(word, 'rue'))
             print("Old Russian: ", getTranslation(word, 'orv'))
