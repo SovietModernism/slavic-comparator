@@ -1,5 +1,6 @@
 import SlavicComparatorFunctions as scf   # локальный модуль с функциями
 from tkinter import *
+from ctypes import windll
 
 
 # переменная для проверки, была ли уже неудачная попытка ввести слово
@@ -207,6 +208,10 @@ window.title("Slavic Comparator")
 window.geometry('1350x400')
 window.resizable(False, False)
 
+# стандартизация размера и DPI окна для всех вариантов выполнения программы
+window.call('tk', 'scaling', 1.7)
+windll.shcore.SetProcessDpiAwareness(1)
+
 # проверка на активность сайта, а также на наличие интернета
 if scf.isConnected() == "noSiteConnectionError":
     noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
@@ -246,4 +251,4 @@ elif scf.isConnected() == "yes":
         
     createLabels()
 
-    window.mainloop
+    window.mainloop()
