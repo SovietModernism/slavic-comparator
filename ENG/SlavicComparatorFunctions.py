@@ -23,7 +23,7 @@ def getTranslation(entryWord, language2):
     word = entryWord.get()
     wordURL = urllib.parse.quote(word)
 
-    source = "https://iapi.glosbe.com/iapi3/wordlist?l1=ru&l2=" + language2 + \
+    source = "https://iapi.glosbe.com/iapi3/wordlist?l1=en&l2=" + language2 + \
              "&q=" + wordURL + "&after=1&includeTranslations=true"
 
     # gathering all the information to the list
