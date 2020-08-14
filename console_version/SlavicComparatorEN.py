@@ -4,11 +4,11 @@ import re
 import os
 
 
-# custom exception occuring when Glosbe site returned any code but 200
+# custom exception occuring when Glosbe returned any code but 200 (site is down)
 class noSiteConnectionError(Exception):
     pass
 
-# tuple of languages using Cyrillic script (Serbocroatian and Church Slavonic are not included)
+# tuple of languages using Cyrillic script (Serbocroatian and Church Slavonic not included)
 cyrLanguages = {'ru', 'be', 'uk', 'rue', 'orv', 'sr', 'bg', 'mk', }
 
 
@@ -17,11 +17,11 @@ def getTranslation(word, language2):
     source = "https://iapi.glosbe.com/iapi3/wordlist?l1=en&l2=" + language2 + \
              "&q=" + word + "&after=1&includeTranslations=true"
 
-    # gathering all the information to the list
+    # gathering all the information to the dictionnary
     with urllib.request.urlopen(source) as url:
         data = json.loads(url.read().decode())
 
-    # list is turned into a string to use regexp on it.
+    # dictionnary is turned into a string to use regexp on it.
     # excess elements are removed, parser takes the key words
     data = str(data)
     parser = re.sub(r'\,|\{|\}|\[|\]|\:|\: True', '', data)
