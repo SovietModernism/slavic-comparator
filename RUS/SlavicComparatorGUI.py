@@ -26,11 +26,11 @@ def buttonClicked():
         
     except StopIteration:
             anErrorOnceOccured = True
-            warningText.grid(column = 0, row = 1, padx = 13, columnspan = 2, sticky = "w")
+            warningText.place(x = 50, y = 425)
 
     else:
         if anErrorOnceOccured:
-            warningText.grid_forget()
+            warningText.place_forget()
         doTranslate()
 
 
@@ -102,13 +102,13 @@ def createLabels():
 
 
     # создание самих label'ов с текстом
-    L0 = Label(window, text = "\nВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
+    L0 = Label(window, text = "ВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ")
     L1 = Label(window, textvariable = L1t)
     L2 = Label(window, textvariable = L2t)
     L3 = Label(window, textvariable = L3t)
     L4 = Label(window, textvariable = L4t)
 
-    L5 = Label(window, text = "\nЗАПАДНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
+    L5 = Label(window, text = "ЗАПАДНОСЛАВЯНСКИЕ ЯЗЫКИ")
     L6 = Label(window, textvariable = L6t)
     L7 = Label(window, textvariable = L7t)
     L8 = Label(window, textvariable = L8t)
@@ -118,7 +118,7 @@ def createLabels():
     L12 = Label(window, textvariable = L12t)
     L13 = Label(window, textvariable = L13t)
 
-    L14 = Label(window, text = "\nЮЖНОСЛАВЯНСКИЕ ЯЗЫКИ\n")
+    L14 = Label(window, text = "ЮЖНОСЛАВЯНСКИЕ ЯЗЫКИ")
     L15 = Label(window, textvariable = L15t)
     L16 = Label(window, textvariable = L16t)
     L17 = Label(window, textvariable = L17t)
@@ -130,7 +130,7 @@ def createLabels():
 
     # помещение label'ов и их текстовых переменных в списки
     # первый список служит для размещения label'ов, второй - для изменения их текстовых значений
-    labelsGridList = [L0, L1, L2, L3, L4, L5, L6, L7, L8,
+    labelsPlaceList = [L0, L1, L2, L3, L4, L5, L6, L7, L8,
                       L9, L10, L11, L12, L13, L14, L15,
                       L16, L17, L18, L19, L20, L21, L22]
 
@@ -139,24 +139,29 @@ def createLabels():
                          L16t, L17t, L18t, L19t, L20t, L21t, L22t]
 
     # размещение label'ов в окне, а также задание им шрифта
-    a = 3    # восточнославянские
-    b = 3    # западнославянские
-    c = 3    # южнославянские
+    a = 150    # восточнославянские
+    b = 150    # западнославянские
+    c = 150    # южнославянские
 
     for i in range(0, 23):
 
-        labelsGridList[i].config(font = ("Times New Roman", 11))
+        labelsPlaceList[i].config(font = ("Times New Roman", 11))
 
         if i > 4:
             if i > 13:
-                labelsGridList[i].grid(column = 2, row = c, padx = 5, sticky = 'w')
-                c += 1
+                labelsPlaceList[i].place(x = 975, y = c)
+                c += 25
             else:
-                labelsGridList[i].grid(column = 1, row = b, padx = 5, sticky = 'w')
-                b += 1
+                labelsPlaceList[i].place(x = 525, y = b)
+                b += 25
         else:
-            labelsGridList[i].grid(column = 0, row = a, padx = 13, sticky = 'w')
-            a += 1
+            labelsPlaceList[i].place(x = 50, y = a)
+            a += 25
+
+    # отдельное переразмещение label'ов с названиями языковых групп
+    labelsPlaceList[0].place(x = 50, y = 130)
+    labelsPlaceList[5].place(x = 525, y = 130)
+    labelsPlaceList[14].place(x = 975, y = 130)
 
 
 # функция, приводящая текст в label'ах к исходному
@@ -205,7 +210,7 @@ def doTranslate():
 # настройки окна
 window = Tk()
 window.title("Slavic Comparator")
-window.geometry('1350x400')
+window.geometry('1500x475')
 window.resizable(False, False)
 
 # стандартизация размера и DPI окна для всех вариантов выполнения программы
@@ -215,36 +220,36 @@ windll.shcore.SetProcessDpiAwareness(1)
 # проверка на активность сайта, а также на наличие интернета
 if scf.isConnected() == "noSiteConnectionError":
     noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
-    noSiteText.grid(column = 0, row = 0, padx = 13, pady = 5, sticky = "w")
+    noSiteText.place(x = 25, y = 10)
     noSiteText.config(font = ("Times New Roman", 11), fg = "red")
 
 elif scf.isConnected() == "urllib.error.URLError":
     noConnectText = Label(window, text = "Этой программе требуется наличие интернета, подключения к которому сейчас нет, либо же сайт Glosbe просто стал недоступен.")
-    noConnectText.grid(column = 0, row = 0, padx = 13, pady = 5, sticky = "w")
+    noConnectText.place(x = 25, y = 10)
     noConnectText.config(font = ("Times New Roman", 11), fg = "red")
 
 elif scf.isConnected() == "yes":
 
     # начальный текст
     entryText = Label(window, text = "Введите слово на русском:")
-    entryText.grid(column = 0, row = 0, padx = 13, pady = 10, sticky = "w")
+    entryText.place(x = 555, y = 10)
     entryText.config(font = ("Times New Roman", 14))
 
     # строка с вводом
     entryWord = StringVar()
     entryWidget = Entry(window, width = 40, textvariable = entryWord)
-    entryWidget.grid(column = 1, row = 0, padx = 5, pady = 10)
+    entryWidget.place(x = 475, y = 55)
     entryWidget.config(font = ("Times New Roman", 13))
 
     # кнопка для начала поиска
     startButton = Button(window, text = "Начать перевод", command = buttonClicked)
-    startButton.grid(column = 2, row = 0, padx = 50, pady = 10)
+    startButton.place(x = 950, y = 52.5)
     startButton.config(font = ("Times New Roman", 11))
 
     # предупреждающий об ошибке текст, если введённое слово неверное
     warningText = Label(window, text = "В слове присутствуют не-кириллические символы либо пробелы!")
     warningText.config(font = ("Times New Roman", 12), fg = "red")
-    warningText.grid_forget()
+    warningText.place_forget()
 
     # отслеживаем лимит
     entryWord.trace("w", lambda *args: character_limit(entryWord))
