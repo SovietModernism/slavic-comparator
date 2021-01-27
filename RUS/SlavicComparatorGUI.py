@@ -221,7 +221,7 @@ class App(Tk):
 
         # начальный текст
         entryText = Label(self, text = "Введите слово на русском:")
-        entryText.place(x = 555, y = 10)
+        entryText.place(x = 560, y = 10)
         entryText.config(font = ("Times New Roman", 14))
  
         # строка с вводом
