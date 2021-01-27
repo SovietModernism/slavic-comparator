@@ -1,4 +1,4 @@
-import SlavicComparatorFunctions as scf   # локальный модуль с функциями
+import SlavicComparatorAdditional as sca   # локальный модуль с функциями
 from tkinter import *
 from ctypes import windll
 
@@ -22,7 +22,7 @@ def buttonClicked():
     global warningText
 
     try:
-        scf.isEntryCyrillic(entryWord)
+        sca.isEntryCyrillic(entryWord)
         
     except StopIteration:
             anErrorOnceOccured = True
@@ -200,7 +200,7 @@ def doTranslate():
 
     translation = ""
     for i in range(0, 20):
-        translation = scf.getTranslation(entryWord, scf.language[i])
+        translation = sca.getTranslation(entryWord, sca.language[i])
         textVariablesList[i].set(textVariablesList[i].get() + translation)
 
     translatedAgain = True
@@ -218,17 +218,17 @@ window.call('tk', 'scaling', 1.7)
 windll.shcore.SetProcessDpiAwareness(1)
 
 # проверка на активность сайта, а также на наличие интернета
-if scf.isConnected() == "noSiteConnectionError":
+if sca.isConnected() == "noSiteConnectionError":
     noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
     noSiteText.place(x = 25, y = 10)
     noSiteText.config(font = ("Times New Roman", 11), fg = "red")
 
-elif scf.isConnected() == "urllib.error.URLError":
+elif sca.isConnected() == "urllib.error.URLError":
     noConnectText = Label(window, text = "Этой программе требуется наличие интернета, подключения к которому сейчас нет, либо же сайт Glosbe просто стал недоступен.")
     noConnectText.place(x = 25, y = 10)
     noConnectText.config(font = ("Times New Roman", 11), fg = "red")
 
-elif scf.isConnected() == "yes":
+elif sca.isConnected() == "yes":
 
     # начальный текст
     entryText = Label(window, text = "Введите слово на русском:")
