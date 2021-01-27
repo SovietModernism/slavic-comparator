@@ -2,11 +2,6 @@ import urllib.request
 import json
 import re
 
-
-# custom exception occuring when Glosbe returned any code but 200 (site is down)
-class noSiteConnectionError(Exception):
-    pass
-
 # tuple containing all abbreviations for languages identification
 language = ('ru', 'be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
             'hsb',  'dsb',  'pox',  'cs', 'sk',  'sl', 'hr',
@@ -78,28 +73,13 @@ def getTranslation(entryWord, language2):
             return parser[1]
 
 
-# check if there is Internet and Glosbe is online
-def isConnected():
-    try:
-        if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):
-            raise noSiteConnectionError
-
-    except noSiteConnectionError:
-        return "noSiteConnectionError"
-
-    except urllib.error.URLError:
-        return "urllib.error.URLError"
-    else:
-        return "yes"
-
-
 # function for finding non-Latin letters in input
 def isEntryLatin(entryWord):
     for i in str(entryWord.get()):
         if not bool(re.search('[\u0041-\u005A]|[\u0061-\u007A]', i)):
             raise StopIteration
 
-# same, but for usual Cyrillic words
+# same, but for usual Cyrillic (translated) words
 def isWordCyrillic(word):
     for i in word:
         if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":

@@ -2,11 +2,6 @@ import urllib.request
 import json
 import re
 
-
-# кастомное исключение при подключении к нерабочему сайту
-class noSiteConnectionError(Exception):
-    pass
-
 # кортеж, содержащий все сокращения для идентификации языков
 language = ('be', 'uk', 'rue', 'orv',  'pl',  'csb', 'szl',
             'hsb',  'dsb',  'pox',  'cs', 'sk',  'sl',
@@ -78,27 +73,13 @@ def getTranslation(entryWord, language2):
             return parser[1]
 
 
-# функция для проверки наличия интернета и активности сайта
-def isConnected():
-    try:
-        if (urllib.request.urlopen("https://ru.glosbe.com").getcode() != 200):
-            raise noSiteConnectionError
-
-    except noSiteConnectionError:
-        return "noSiteConnectionError"
-
-    except urllib.error.URLError:
-        return "urllib.error.URLError"
-    else:
-        return "yes"
-
-
-# функция для нахождения не-кириллических символов или пробелов в слове
+# функция для нахождения не-кириллических символов или пробелов в слове, вводимом пользователем
 def isEntryCyrillic(entryWord):
     for i in str(entryWord.get()):
         if not bool(re.search('[\u0400-\u04FF]', i)):
             raise StopIteration
 
+# примерно та же функция, но используется для отбора переведённых слов
 def isWordCyrillic(word):
     for i in word:
         if not bool(re.search('[\u0400-\u04FF]', i)) and i != " ":
