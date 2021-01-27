@@ -25,8 +25,9 @@ def buttonClicked():
         sca.isEntryCyrillic(entryWord)
         
     except StopIteration:
-            anErrorOnceOccured = True
-            warningText.place(x = 50, y = 425)
+        anErrorOnceOccured = True
+        warningText.config(text = "В слове присутствуют не-кириллические символы либо пробелы!")
+        warningText.place(x = 50, y = 425)
 
     else:
         if anErrorOnceOccured:
@@ -200,8 +201,19 @@ def doTranslate():
 
     translation = ""
     for i in range(0, 20):
-        translation = sca.getTranslation(entryWord, sca.language[i])
-        textVariablesList[i].set(textVariablesList[i].get() + translation)
+        try:
+            translation = sca.getTranslation(entryWord, sca.language[i])
+            textVariablesList[i].set(textVariablesList[i].get() + translation)
+            
+        except urllib.error.URLError:
+            warningText.config(text = "Отсутствует подключение к интернету, или же сайт Glosbe просто стал недоступен.")
+            warningText.place(x = 50, y = 425)
+            break
+            
+        except:
+            warningText.config(text = "Произошла непредвиденная ошибка!")
+            warningText.place(x = 50, y = 425)
+            break
 
     translatedAgain = True
 
@@ -217,43 +229,31 @@ window.resizable(False, False)
 window.call('tk', 'scaling', 1.7)
 windll.shcore.SetProcessDpiAwareness(1)
 
-# проверка на активность сайта, а также на наличие интернета
-if sca.isConnected() == "noSiteConnectionError":
-    noSiteText = Label(window, text = "Сервер Glosbe работает, однако вернул код ошибки!")
-    noSiteText.place(x = 25, y = 10)
-    noSiteText.config(font = ("Times New Roman", 11), fg = "red")
+# начальный текст
+entryText = Label(window, text = "Введите слово на русском:")
+entryText.place(x = 555, y = 10)
+entryText.config(font = ("Times New Roman", 14))
 
-elif sca.isConnected() == "urllib.error.URLError":
-    noConnectText = Label(window, text = "Этой программе требуется наличие интернета, подключения к которому сейчас нет, либо же сайт Glosbe просто стал недоступен.")
-    noConnectText.place(x = 25, y = 10)
-    noConnectText.config(font = ("Times New Roman", 11), fg = "red")
+# строка с вводом
+entryWord = StringVar()
+entryWidget = Entry(window, width = 40, textvariable = entryWord)
+entryWidget.place(x = 475, y = 55)
+entryWidget.config(font = ("Times New Roman", 13))
 
-elif sca.isConnected() == "yes":
+# кнопка для начала поиска
+startButton = Button(window, text = "Начать перевод", command = buttonClicked)
+startButton.place(x = 950, y = 52.5)
+startButton.config(font = ("Times New Roman", 11))
 
-    # начальный текст
-    entryText = Label(window, text = "Введите слово на русском:")
-    entryText.place(x = 555, y = 10)
-    entryText.config(font = ("Times New Roman", 14))
+# предупреждающий об ошибке текст, если введённое слово неверное
+warningText = Label(window)
+warningText.config(font = ("Times New Roman", 12), fg = "red")
+warningText.place(x = 50, y = 425)
+warningText.place_forget()
 
-    # строка с вводом
-    entryWord = StringVar()
-    entryWidget = Entry(window, width = 40, textvariable = entryWord)
-    entryWidget.place(x = 475, y = 55)
-    entryWidget.config(font = ("Times New Roman", 13))
+# отслеживаем лимит
+entryWord.trace("w", lambda *args: character_limit(entryWord))
 
-    # кнопка для начала поиска
-    startButton = Button(window, text = "Начать перевод", command = buttonClicked)
-    startButton.place(x = 950, y = 52.5)
-    startButton.config(font = ("Times New Roman", 11))
+createLabels()
 
-    # предупреждающий об ошибке текст, если введённое слово неверное
-    warningText = Label(window, text = "В слове присутствуют не-кириллические символы либо пробелы!")
-    warningText.config(font = ("Times New Roman", 12), fg = "red")
-    warningText.place_forget()
-
-    # отслеживаем лимит
-    entryWord.trace("w", lambda *args: character_limit(entryWord))
-
-    createLabels()
-
-    window.mainloop()
+window.mainloop()

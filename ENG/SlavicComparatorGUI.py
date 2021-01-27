@@ -25,8 +25,9 @@ def buttonClicked():
         sca.isEntryLatin(entryWord)
         
     except StopIteration:
-            anErrorOnceOccured = True
-            warningText.place(x = 50, y = 425)
+        anErrorOnceOccured = True
+        warningText.config(text = "Your word contains non-Latin symbols or spaces!")
+        warningText.place(x = 50, y = 425)
 
     else:
         if anErrorOnceOccured:
@@ -205,8 +206,19 @@ def doTranslate():
 
     translation = ""
     for i in range(0, 21):
-        translation = sca.getTranslation(entryWord, sca.language[i])
-        textVariablesList[i].set(textVariablesList[i].get() + translation)
+        try:
+            translation = sca.getTranslation(entryWord, sca.language[i])
+            textVariablesList[i].set(textVariablesList[i].get() + translation)
+            
+        except urllib.error.URLError:
+            warningText.config(text = "No Internet connection, or the Glosbe site just become inaccessible.")
+            warningText.place(x = 50, y = 425)
+            break
+            
+        except:
+            warningText.config(text = "An unexpected error occured!")
+            warningText.place(x = 50, y = 425)
+            break
 
     translatedAgain = True
 
@@ -222,43 +234,31 @@ window.resizable(False, False)
 window.call('tk', 'scaling', 1.7)
 windll.shcore.SetProcessDpiAwareness(1)
 
-# checking if there is an Internet connection, as well as if Glosbe site is online
-if sca.isConnected() == "noSiteConnectionError":
-    noSiteText = Label(window, text = "Server of Glosbe is working, but it returned an error code!")
-    noSiteText.place(x = 25, y = 10)
-    noSiteText.config(font = ("Times New Roman", 11), fg = "red")
+# initial text
+entryText = Label(window, text = "Input a word in English:")
+entryText.place(x = 575, y = 10)
+entryText.config(font = ("Times New Roman", 14))
 
-elif sca.isConnected() == "urllib.error.URLError":
-    noConnectText = Label(window, text = "This program needs an Internet connection to work (which isn't now), or Glosbe site just suddenly became inaccessible.")
-    noConnectText.place(x = 25, y = 10)
-    noConnectText.config(font = ("Times New Roman", 11), fg = "red")
+# string for input
+entryWord = StringVar()
+entryWidget = Entry(window, width = 40, textvariable = entryWord)
+entryWidget.place(x = 475, y = 55)
+entryWidget.config(font = ("Times New Roman", 13))
 
-elif sca.isConnected() == "yes":
+# button for translation
+startButton = Button(window, text = "Translate", command = buttonClicked)
+startButton.place(x = 950, y = 52.5)
+startButton.config(font = ("Times New Roman", 11))
 
-    # initial text
-    entryText = Label(window, text = "Input a word in English:")
-    entryText.place(x = 575, y = 10)
-    entryText.config(font = ("Times New Roman", 14))
+# warning text, if input word is incorrect
+warningText = Label(window)
+warningText.config(font = ("Times New Roman", 12), fg = "red")
+warningText.place(x = 50, y = 425)
+warningText.place_forget()
 
-    # string for input
-    entryWord = StringVar()
-    entryWidget = Entry(window, width = 40, textvariable = entryWord)
-    entryWidget.place(x = 475, y = 55)
-    entryWidget.config(font = ("Times New Roman", 13))
+# tracking the symbol limit
+entryWord.trace("w", lambda *args: character_limit(entryWord))
 
-    # button for translation
-    startButton = Button(window, text = "Translate", command = buttonClicked)
-    startButton.place(x = 950, y = 52.5)
-    startButton.config(font = ("Times New Roman", 11))
+createLabels()
 
-    # warning text, if input word is incorrect
-    warningText = Label(window, text = "Your word contains non-Latin symbols or spaces!")
-    warningText.config(font = ("Times New Roman", 12), fg = "red")
-    warningText.place_forget()
-
-    # tracking the symbol limit
-    entryWord.trace("w", lambda *args: character_limit(entryWord))
-
-    createLabels()
-
-    window.mainloop()
+window.mainloop()
