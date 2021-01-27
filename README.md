@@ -7,7 +7,7 @@ Now to the files and folders:
 
 * **SlavicComparatorGUI.py** — program's main part
 
-* **SlavicComparatorFunctions.py** — module keeping all the functions which don't directly interact with Tkinter (only through the main part)
+* **SlavicComparatorAdditional.py** — module keeping all the stuff which doesn't directly interact with Tkinter (only through the main part)
 
 * **/console_version** — folder keeping console versions of the program. Might be easier to use them in terms of debug, also work a bit faster
 
@@ -31,7 +31,7 @@ ___
 
 * **SlavicComparatorGUI.py** — главная часть программы, по совместительству также отвечающая за графическую составляющую
 
-* **SlavicComparatorFunctions.py** — модуль, в который было вынесено всё, что не взаимодействует с Tkinter'ом напрямую (только посредством предыдущего файла)
+* **SlavicComparatorAdditional.py** — модуль, в который было вынесено всё, что не взаимодействует с Tkinter'ом напрямую (только через файл с GUI)
 
 * **/console_version** — папка, хранящая консольные версии программы соответственно. С помощью них может быть проще проводить debug, да и работают они немного быстрее
 
