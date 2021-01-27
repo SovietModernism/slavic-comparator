@@ -143,16 +143,16 @@ class App(Tk):
                          L16t, L17t, L18t, L19t, L20t, L21t, L22t, L23t]
 
         # placing labels on window, as well as setting their font
-        a = 150    # east slavic
-        b = 150    # west slavic
-        c = 150    # south slavic
+        a = 140    # east slavic
+        b = 140    # west slavic
+        c = 140    # south slavic
 
         for i in range(0, 24):
 
             labelsPlaceList[i].config(font = ("Times New Roman", 11))
 
-            if i > 4:
-                if i > 13:
+            if i > 5:
+                if i > 14:
                     labelsPlaceList[i].place(x = 975, y = c)
                     c += 25
                 else:
@@ -163,35 +163,35 @@ class App(Tk):
                 a += 25
 
         # separated placing of labels with language families
-        labelsPlaceList[0].place(x = 50, y = 130)
-        labelsPlaceList[6].place(x = 525, y = 130)
-        labelsPlaceList[15].place(x = 975, y = 130)
+        labelsPlaceList[0].place(x = 50, y = 125)
+        labelsPlaceList[6].place(x = 525, y = 125)
+        labelsPlaceList[15].place(x = 975, y = 125)
 
 
     # function that brings labels' text to default
     def labelsToDefault(self):
 
-        self.textVariablesList[1].set("Russian: ")
-        self.textVariablesList[2].set("Belarusian: ")
-        self.textVariablesList[3].set("Ukrainian: ")
-        self.textVariablesList[4].set("Rusyn: ")
-        self.textVariablesList[5].set("Old Russian: ")
-        self.textVariablesList[6].set("Polish: ")
-        self.textVariablesList[7].set("Kashubian: ")
-        self.textVariablesList[8].set("Silesian: ")
-        self.textVariablesList[9].set("Upper Sorbian: ")
-        self.textVariablesList[10].set("Lower Sorbian: ")
-        self.textVariablesList[11].set("Polabian: ")
-        self.textVariablesList[12].set("Czech: ")
-        self.textVariablesList[13].set("Slovak: ")
-        self.textVariablesList[14].set("Slovenian: ")
-        self.textVariablesList[15].set("Croatian: ")
-        self.textVariablesList[16].set("Serbian: ")
-        self.textVariablesList[17].set("Serbocroatian: ")
-        self.textVariablesList[18].set("Bosnian: ")
-        self.textVariablesList[19].set("Macedonian: ")
-        self.textVariablesList[20].set("Bulgarian: ")
-        self.textVariablesList[21].set("Church Slavonic: ")
+        self.textVariablesList[0].set("Russian: ")
+        self.textVariablesList[1].set("Belarusian: ")
+        self.textVariablesList[2].set("Ukrainian: ")
+        self.textVariablesList[3].set("Rusyn: ")
+        self.textVariablesList[4].set("Old Russian: ")
+        self.textVariablesList[5].set("Polish: ")
+        self.textVariablesList[6].set("Kashubian: ")
+        self.textVariablesList[7].set("Silesian: ")
+        self.textVariablesList[8].set("Upper Sorbian: ")
+        self.textVariablesList[9].set("Lower Sorbian: ")
+        self.textVariablesList[10].set("Polabian: ")
+        self.textVariablesList[11].set("Czech: ")
+        self.textVariablesList[12].set("Slovak: ")
+        self.textVariablesList[13].set("Slovenian: ")
+        self.textVariablesList[14].set("Croatian: ")
+        self.textVariablesList[15].set("Serbian: ")
+        self.textVariablesList[16].set("Serbocroatian: ")
+        self.textVariablesList[17].set("Bosnian: ")
+        self.textVariablesList[18].set("Macedonian: ")
+        self.textVariablesList[19].set("Bulgarian: ")
+        self.textVariablesList[20].set("Church Slavonic: ")
 
 
     # function that adds labels the translations
@@ -209,7 +209,7 @@ class App(Tk):
                 self.textVariablesList[i].set(self.textVariablesList[i].get() + translation)
                 
             except urllib.error.URLError:
-                self.warningText.config(text = "No Internet connection, or the Glosbe site just become inaccessible.")
+                self.warningText.config(text = "No Internet connection, or the Glosbe site just became inaccessible.")
                 self.warningText.place(x = 50, y = 425)
                 break
             
@@ -226,7 +226,7 @@ class App(Tk):
 
         # initial text
         entryText = Label(self, text = "Input a word in English:")
-        entryText.place(x = 555, y = 10)
+        entryText.place(x = 585, y = 10)
         entryText.config(font = ("Times New Roman", 14))
  
         # string for input
