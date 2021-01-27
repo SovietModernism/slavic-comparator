@@ -1,264 +1,267 @@
-import SlavicComparatorAdditional as sca   # local module with functions
+import SlavicComparatorAdditional as sca   # локальный модуль с функциями
+import urllib.error
 from tkinter import *
 from ctypes import windll
 
 
-# bool for checking, if there was an unsuccessful try to input a word
-anErrorOnceOccured = None
-
-# bool for checking, if anything was once translated
-translatedAgain = False
-
-# limit of 30 symbols in the string you input
-def character_limit(entryWord):
-    if len(entryWord.get()) > 30:
-        entryWord.set(entryWord.get()[:30])
-
-
-# an event when clicking a button
-def buttonClicked():
-
-    global anErrorOnceOccured
-    global warningText
-
-    try:
-        sca.isEntryLatin(entryWord)
-        
-    except StopIteration:
-        anErrorOnceOccured = True
-        warningText.config(text = "Your word contains non-Latin symbols or spaces!")
-        warningText.place(x = 50, y = 425)
-
-    else:
-        if anErrorOnceOccured:
-            warningText.place_forget()
-        doTranslate()
-
-
-# creates empty sample labels for languages, and list them
-def createLabels():
-
-    global textVariablesList
-
-    # creation and initialization of variables for keeping text
-    L1t = StringVar()
-    L1t.set("Russian: ")
+class App(Tk):
     
-    L2t = StringVar()
-    L2t.set("Belarusian: ")
+    # bool for checking, if there was an unsuccessful try to input a word
+    anErrorOnceOccured = None
 
-    L3t = StringVar()
-    L3t.set("Russian: ")
+    # bool for checking, if anything was once translated
+    translatedAgain = False
 
-    L4t = StringVar()
-    L4t.set("Rusyn: ")
+    
+    # limit of 30 symbols in the string you input
+    def character_limit(self, entryWord):
+        if len(entryWord.get()) > 30:
+            entryWord.set(entryWord.get()[:30])
+                
+                
+    # an event when clicking a button
+    def buttonClicked(self):
 
-    L5t = StringVar()
-    L5t.set("Old Russian: ")
+        try:
+            sca.isEntryLatin(self.entryWord)
+                
+        except StopIteration:
+            self.anErrorOnceOccured = True
+            self.warningText.config(text = "Your word contains non-Latin symbols or spaces!")
+            self.warningText.place(x = 50, y = 425)
 
-    L7t = StringVar()
-    L7t.set("Polish: ")
+        else:
+            if self.anErrorOnceOccured:
+                self.warningText.place_forget()
+            self.doTranslate()
+                
+                
+    # creates empty sample labels for languages, and list them
+    def createLabels(self):
 
-    L8t = StringVar()
-    L8t.set("Kashubian: ")
+        # creation and initialization of variables for keeping text
+        L1t = StringVar()
+        L1t.set("Russian: ")
+        
+        L2t = StringVar()
+        L2t.set("Belarusian: ")
 
-    L9t = StringVar()
-    L9t.set("Silesian: ")
+        L3t = StringVar()
+        L3t.set("Russian: ")
 
-    L10t = StringVar()
-    L10t.set("Upper Sorbian: ")
+        L4t = StringVar()
+        L4t.set("Rusyn: ")
 
-    L11t = StringVar()
-    L11t.set("Lower Sorbian: ")
+        L5t = StringVar()
+        L5t.set("Old Russian: ")
 
-    L12t = StringVar()
-    L12t.set("Polabian: ")
+        L7t = StringVar()
+        L7t.set("Polish: ")
 
-    L13t = StringVar()
-    L13t.set("Czech: ")
+        L8t = StringVar()
+        L8t.set("Kashubian: ")
 
-    L14t = StringVar()
-    L14t.set("Slovak: ")
+        L9t = StringVar()
+        L9t.set("Silesian: ")
 
-    L16t = StringVar()
-    L16t.set("Slovenian: ")
+        L10t = StringVar()
+        L10t.set("Upper Sorbian: ")
 
-    L17t = StringVar()
-    L17t.set("Croatian: ")
+        L11t = StringVar()
+        L11t.set("Lower Sorbian: ")
 
-    L18t = StringVar()
-    L18t.set("Serbian: ")
+        L12t = StringVar()
+        L12t.set("Polabian: ")
 
-    L19t = StringVar()
-    L19t.set("Serbocroatian: ")
+        L13t = StringVar()
+        L13t.set("Czech: ")
 
-    L20t = StringVar()
-    L20t.set("Bosnian: ")
+        L14t = StringVar()
+        L14t.set("Slovak: ")
 
-    L21t = StringVar()
-    L21t.set("Macedonian: ")
+        L16t = StringVar()
+        L16t.set("Slovenian: ")
 
-    L22t = StringVar()
-    L22t.set("Bulgarian: ")
+        L17t = StringVar()
+        L17t.set("Croatian: ")
 
-    L23t = StringVar()
-    L23t.set("Church Slavonic: ")
+        L18t = StringVar()
+        L18t.set("Serbian: ")
+
+        L19t = StringVar()
+        L19t.set("Serbocroatian: ")
+
+        L20t = StringVar()
+        L20t.set("Bosnian: ")
+
+        L21t = StringVar()
+        L21t.set("Macedonian: ")
+
+        L22t = StringVar()
+        L22t.set("Bulgarian: ")
+
+        L23t = StringVar()
+        L23t.set("Church Slavonic: ")
 
 
-    # creation of labels with text themselves
-    L0 = Label(window, text = "EAST SLAVIC LANGUAGES")
-    L1 = Label(window, textvariable = L1t)
-    L2 = Label(window, textvariable = L2t)
-    L3 = Label(window, textvariable = L3t)
-    L4 = Label(window, textvariable = L4t)
-    L5 = Label(window, textvariable = L5t)
+        # creation of labels with text themselves
+        L0 = Label(self, text = "EAST SLAVIC LANGUAGES")
+        L1 = Label(self, textvariable = L1t)
+        L2 = Label(self, textvariable = L2t)
+        L3 = Label(self, textvariable = L3t)
+        L4 = Label(self, textvariable = L4t)
+        L5 = Label(self, textvariable = L5t)
 
-    L6 = Label(window, text = "WEST SLAVIC LANGUAGES")
-    L7 = Label(window, textvariable = L7t)
-    L8 = Label(window, textvariable = L8t)
-    L9 = Label(window, textvariable = L9t)
-    L10 = Label(window, textvariable = L10t)
-    L11 = Label(window, textvariable = L11t)
-    L12 = Label(window, textvariable = L12t)
-    L13 = Label(window, textvariable = L13t)
-    L14 = Label(window, textvariable = L14t)
+        L6 = Label(self, text = "WEST SLAVIC LANGUAGES")
+        L7 = Label(self, textvariable = L7t)
+        L8 = Label(self, textvariable = L8t)
+        L9 = Label(self, textvariable = L9t)
+        L10 = Label(self, textvariable = L10t)
+        L11 = Label(self, textvariable = L11t)
+        L12 = Label(self, textvariable = L12t)
+        L13 = Label(self, textvariable = L13t)
+        L14 = Label(self, textvariable = L14t)
 
-    L15 = Label(window, text = "SOUTH SLAVIC LANGUAGES")
-    L16 = Label(window, textvariable = L16t)
-    L17 = Label(window, textvariable = L17t)
-    L18 = Label(window, textvariable = L18t)
-    L19 = Label(window, textvariable = L19t)
-    L20 = Label(window, textvariable = L20t)
-    L21 = Label(window, textvariable = L21t)
-    L22 = Label(window, textvariable = L22t)
-    L23 = Label(window, textvariable = L23t)
+        L15 = Label(self, text = "SOUTH SLAVIC LANGUAGES")
+        L16 = Label(self, textvariable = L16t)
+        L17 = Label(self, textvariable = L17t)
+        L18 = Label(self, textvariable = L18t)
+        L19 = Label(self, textvariable = L19t)
+        L20 = Label(self, textvariable = L20t)
+        L21 = Label(self, textvariable = L21t)
+        L22 = Label(self, textvariable = L22t)
+        L23 = Label(self, textvariable = L23t)
 
-    # listing of labels and their text variables.
-    # 1st one is needed for keeping labels, 2nd - for changing their text values
-    labelsPlaceList = [L0, L1, L2, L3, L4, L5, L6, L7, L8,
+        # listing of labels and their text variables.
+        # 1st one is needed for keeping labels, 2nd - for changing their text values
+        labelsPlaceList = [L0, L1, L2, L3, L4, L5, L6, L7, L8,
                       L9, L10, L11, L12, L13, L14, L15,
                       L16, L17, L18, L19, L20, L21, L22, L23]
 
-    textVariablesList = [L1t, L2t, L3t, L4t, L5t, L7t, L8t,
+        self.textVariablesList = [L1t, L2t, L3t, L4t, L5t, L7t, L8t,
                          L9t, L10t, L11t, L12t, L13t, L14t,
                          L16t, L17t, L18t, L19t, L20t, L21t, L22t, L23t]
 
-    # placing labels on window, as well as setting their font
-    a = 150    # east slavic
-    b = 150    # west slavic
-    c = 150    # south slavic
+        # placing labels on window, as well as setting their font
+        a = 150    # east slavic
+        b = 150    # west slavic
+        c = 150    # south slavic
 
-    for i in range(0, 24):
+        for i in range(0, 24):
 
-        labelsPlaceList[i].config(font = ("Times New Roman", 11))
+            labelsPlaceList[i].config(font = ("Times New Roman", 11))
 
-        if i > 5:
-            if i > 14:
-                labelsPlaceList[i].place(x = 975, y = c)
-                c += 25
+            if i > 4:
+                if i > 13:
+                    labelsPlaceList[i].place(x = 975, y = c)
+                    c += 25
+                else:
+                    labelsPlaceList[i].place(x = 525, y = b)
+                    b += 25
             else:
-                labelsPlaceList[i].place(x = 525, y = b)
-                b += 25
-        else:
-            labelsPlaceList[i].place(x = 50, y = a)
-            a += 25
+                labelsPlaceList[i].place(x = 50, y = a)
+                a += 25
 
-    # separated placing of labels with language families
-    labelsPlaceList[0].place(x = 50, y = 130)
-    labelsPlaceList[6].place(x = 525, y = 130)
-    labelsPlaceList[15].place(x = 975, y = 130)
+        # separated placing of labels with language families
+        labelsPlaceList[0].place(x = 50, y = 130)
+        labelsPlaceList[6].place(x = 525, y = 130)
+        labelsPlaceList[15].place(x = 975, y = 130)
 
 
-# function that brings labels' text to default
-def labelsToDefault():
+    # function that brings labels' text to default
+    def labelsToDefault(self):
 
-    textVariablesList[1].set("Russian: ")
-    textVariablesList[2].set("Belarusian: ")
-    textVariablesList[3].set("Ukrainian: ")
-    textVariablesList[4].set("Rusyn: ")
-    textVariablesList[5].set("Old Russian: ")
-    textVariablesList[6].set("Polish: ")
-    textVariablesList[7].set("Kashubian: ")
-    textVariablesList[8].set("Silesian: ")
-    textVariablesList[9].set("Upper Sorbian: ")
-    textVariablesList[10].set("Lower Sorbian: ")
-    textVariablesList[11].set("Polabian: ")
-    textVariablesList[12].set("Czech: ")
-    textVariablesList[13].set("Slovak: ")
-    textVariablesList[14].set("Slovenian: ")
-    textVariablesList[15].set("Croatian: ")
-    textVariablesList[16].set("Serbian: ")
-    textVariablesList[17].set("Serbocroatian: ")
-    textVariablesList[18].set("Bosnian: ")
-    textVariablesList[19].set("Macedonian: ")
-    textVariablesList[20].set("Bulgarian: ")
-    textVariablesList[21].set("Church Slavonic: ")
+        self.textVariablesList[1].set("Russian: ")
+        self.textVariablesList[2].set("Belarusian: ")
+        self.textVariablesList[3].set("Ukrainian: ")
+        self.textVariablesList[4].set("Rusyn: ")
+        self.textVariablesList[5].set("Old Russian: ")
+        self.textVariablesList[6].set("Polish: ")
+        self.textVariablesList[7].set("Kashubian: ")
+        self.textVariablesList[8].set("Silesian: ")
+        self.textVariablesList[9].set("Upper Sorbian: ")
+        self.textVariablesList[10].set("Lower Sorbian: ")
+        self.textVariablesList[11].set("Polabian: ")
+        self.textVariablesList[12].set("Czech: ")
+        self.textVariablesList[13].set("Slovak: ")
+        self.textVariablesList[14].set("Slovenian: ")
+        self.textVariablesList[15].set("Croatian: ")
+        self.textVariablesList[16].set("Serbian: ")
+        self.textVariablesList[17].set("Serbocroatian: ")
+        self.textVariablesList[18].set("Bosnian: ")
+        self.textVariablesList[19].set("Macedonian: ")
+        self.textVariablesList[20].set("Bulgarian: ")
+        self.textVariablesList[21].set("Church Slavonic: ")
 
 
-# function that adds labels the translations
-def doTranslate():
+    # function that adds labels the translations
+    def doTranslate(self):
 
-    global translatedAgain
-    # returning to the default values, so
-    # text won't place over itself
-    if translatedAgain:
-        labelsToDefault()
+        # returning to the default values, so
+        # text won't place over itself
+        if self.translatedAgain:
+            self.labelsToDefault()
 
-    translation = ""
-    for i in range(0, 21):
-        try:
-            translation = sca.getTranslation(entryWord, sca.language[i])
-            textVariablesList[i].set(textVariablesList[i].get() + translation)
+        translation = ""
+        for i in range(0, 21):
+            try:
+                translation = sca.getTranslation(self.entryWord, sca.language[i])
+                self.textVariablesList[i].set(self.textVariablesList[i].get() + translation)
+                
+            except urllib.error.URLError:
+                self.warningText.config(text = "No Internet connection, or the Glosbe site just become inaccessible.")
+                self.warningText.place(x = 50, y = 425)
+                break
             
-        except urllib.error.URLError:
-            warningText.config(text = "No Internet connection, or the Glosbe site just become inaccessible.")
-            warningText.place(x = 50, y = 425)
-            break
-            
-        except:
-            warningText.config(text = "An unexpected error occured!")
-            warningText.place(x = 50, y = 425)
-            break
+            except:
+                self.warningText.config(text = "An unexpected error occured!")
+                self.warningText.place(x = 50, y = 425)
+                break
 
-    translatedAgain = True
+        self.translatedAgain = True
+
+    
+    def __init__(self): 
+        super().__init__()
+
+        # initial text
+        entryText = Label(self, text = "Input a word in English:")
+        entryText.place(x = 555, y = 10)
+        entryText.config(font = ("Times New Roman", 14))
+ 
+        # string for input
+        self.entryWord = StringVar()
+        entryWidget = Entry(self, width = 40, textvariable = self.entryWord)
+        entryWidget.place(x = 475, y = 55)
+        entryWidget.config(font = ("Times New Roman", 13))
+
+        # button for translation
+        startButton = Button(self, text = "Translate", command = self.buttonClicked)
+        startButton.place(x = 950, y = 52.5)
+        startButton.config(font = ("Times New Roman", 11))
+
+        self.warningText = Label(self)
+        self.warningText.place(x = 50, y = 425)
+        self.warningText.config(font = ("Times New Roman", 12), fg = "red")
+        self.warningText.place_forget()
+        
+        # tracking the symbol limit
+        self.entryWord.trace("w", lambda *args: self.character_limit(self.entryWord))
+
+        self.createLabels()
 
 
+# GUI start
+if __name__ == "__main__": 
+    root = App()
 
-# window options
-window = Tk()
-window.title("Slavic Comparator")
-window.geometry('1500x475')
-window.resizable(False, False)
+    root.geometry('1500x475')
+    root.resizable(False, False)
 
-# standartization of DPI and the size of the window for all ways of executing a program
-window.call('tk', 'scaling', 1.7)
-windll.shcore.SetProcessDpiAwareness(1)
-
-# initial text
-entryText = Label(window, text = "Input a word in English:")
-entryText.place(x = 575, y = 10)
-entryText.config(font = ("Times New Roman", 14))
-
-# string for input
-entryWord = StringVar()
-entryWidget = Entry(window, width = 40, textvariable = entryWord)
-entryWidget.place(x = 475, y = 55)
-entryWidget.config(font = ("Times New Roman", 13))
-
-# button for translation
-startButton = Button(window, text = "Translate", command = buttonClicked)
-startButton.place(x = 950, y = 52.5)
-startButton.config(font = ("Times New Roman", 11))
-
-# warning text, if input word is incorrect
-warningText = Label(window)
-warningText.config(font = ("Times New Roman", 12), fg = "red")
-warningText.place(x = 50, y = 425)
-warningText.place_forget()
-
-# tracking the symbol limit
-entryWord.trace("w", lambda *args: character_limit(entryWord))
-
-createLabels()
-
-window.mainloop()
+    # standartization of DPI and the size of the window for all ways of executing a program
+    root.call('tk', 'scaling', 1.7)
+    windll.shcore.SetProcessDpiAwareness(1)
+    
+    root.title("Slavic Comparator")
+    
+    root.mainloop()
