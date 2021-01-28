@@ -34,7 +34,6 @@ def getTranslation(entryWord, language2):
     parser = re.sub(r'^\'|\'$', '', parser)
     parser = parser.split("\'")
 
-
     # removing unnecessary technical words
     parser.remove('after')
     parser.remove('phrase')
@@ -51,24 +50,24 @@ def getTranslation(entryWord, language2):
         # to include 2 translations to the final result instead
         # of just one, but only if they're different
         if (len(parser) >= 3):
-            
+
             if parser[1] != parser[2].lower():
                 # if the 2nd language uses Cyrillic script, but the translated word has some different letters
                 if language2 in cyrLanguages and not isWordCyrillic(parser[2]):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[2]
-            
+
             elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
                 # if the 2nd language uses Cyrillic script, but the translated word has some different letters
                 if language2 in cyrLanguages and not isWordCyrillic(parser[3]):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[3]
-            
+
             else:
                 return parser[1]
-            
+
         else:
             return parser[1]
 
@@ -78,6 +77,7 @@ def isEntryLatin(entryWord):
     for i in str(entryWord.get()):
         if not bool(re.search('[\u0041-\u005A]|[\u0061-\u007A]', i)):
             raise StopIteration
+
 
 # same, but for usual Cyrillic (translated) words
 def isWordCyrillic(word):

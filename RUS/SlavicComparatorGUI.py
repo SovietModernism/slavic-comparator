@@ -5,26 +5,24 @@ from ctypes import windll
 
 
 class App(Tk):
-    
+
     # переменная для проверки, была ли уже неудачная попытка ввести слово
     anErrorOnceOccured = None
 
     # переменная для проверки, переводилось ли уже что-нибудь
     translatedAgain = False
 
-    
     # лимит на 30 вводимых символов в строке
     def character_limit(self, entryWord):
         if len(entryWord.get()) > 30:
             entryWord.set(entryWord.get()[:30])
-                
-                
+
     # событие при клике на кнопку поиска
     def buttonClicked(self):
 
         try:
             sca.isEntryCyrillic(self.entryWord)
-                
+
         except StopIteration:
             self.anErrorOnceOccured = True
             self.warningText.config(text = "В слове присутствуют не-кириллические символы либо пробелы!")
@@ -34,8 +32,7 @@ class App(Tk):
             if self.anErrorOnceOccured:
                 self.warningText.place_forget()
             self.doTranslate()
-                
-                
+
     # создаёт пустые label'ы-заготовки для языков и вносит их в список
     def createLabels(self):
 
@@ -100,7 +97,6 @@ class App(Tk):
         L22t = StringVar()
         L22t.set("Церковнославянский: ")
 
-
         # создание самих label'ов с текстом
         L0 = Label(self, text = "ВОСТОЧНОСЛАВЯНСКИЕ ЯЗЫКИ")
         L1 = Label(self, textvariable = L1t)
@@ -163,7 +159,6 @@ class App(Tk):
         labelsPlaceList[5].place(x = 525, y = 130)
         labelsPlaceList[14].place(x = 975, y = 130)
 
-
     # функция, приводящая текст в label'ах к исходному
     def labelsToDefault(self):
 
@@ -188,7 +183,6 @@ class App(Tk):
         self.textVariablesList[18].set("Болгарский: ")
         self.textVariablesList[19].set("Церковнославянский: ")
 
-
     # функция, добавляющая label'ам перевод
     def doTranslate(self):
 
@@ -202,12 +196,12 @@ class App(Tk):
             try:
                 translation = sca.getTranslation(self.entryWord, sca.language[i])
                 self.textVariablesList[i].set(self.textVariablesList[i].get() + translation)
-                
+
             except urllib.error.URLError:
                 self.warningText.config(text = "Отсутствует подключение к интернету, или же сайт Glosbe просто стал недоступен.")
                 self.warningText.place(x = 50, y = 425)
                 break
-            
+
             except:
                 self.warningText.config(text = "Произошла непредвиденная ошибка!")
                 self.warningText.place(x = 50, y = 425)
@@ -215,15 +209,14 @@ class App(Tk):
 
         self.translatedAgain = True
 
-    
-    def __init__(self): 
+    def __init__(self):
         super().__init__()
 
         # начальный текст
         entryText = Label(self, text = "Введите слово на русском:")
         entryText.place(x = 560, y = 10)
         entryText.config(font = ("Times New Roman", 14))
- 
+
         # строка с вводом
         self.entryWord = StringVar()
         entryWidget = Entry(self, width = 40, textvariable = self.entryWord)
@@ -240,7 +233,7 @@ class App(Tk):
         self.warningText.place(x = 50, y = 425)
         self.warningText.config(font = ("Times New Roman", 12), fg = "red")
         self.warningText.place_forget()
-        
+
         # отслеживаем лимит
         self.entryWord.trace("w", lambda *args: self.character_limit(self.entryWord))
 
@@ -248,7 +241,7 @@ class App(Tk):
 
 
 # запуск GUI
-if __name__ == "__main__": 
+if __name__ == "__main__":
     root = App()
 
     root.geometry('1500x475')
@@ -257,7 +250,7 @@ if __name__ == "__main__":
     # стандартизация размера и DPI окна для всех вариантов выполнения программы
     root.call('tk', 'scaling', 1.7)
     windll.shcore.SetProcessDpiAwareness(1)
-    
+
     root.title("Slavic Comparator")
-    
+
     root.mainloop()

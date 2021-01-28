@@ -5,26 +5,24 @@ from ctypes import windll
 
 
 class App(Tk):
-    
+
     # bool for checking, if there was an unsuccessful try to input a word
     anErrorOnceOccured = None
 
     # bool for checking, if anything was once translated
     translatedAgain = False
 
-    
     # limit of 30 symbols in the string you input
     def character_limit(self, entryWord):
         if len(entryWord.get()) > 30:
             entryWord.set(entryWord.get()[:30])
-                
-                
+
     # an event when clicking a button
     def buttonClicked(self):
 
         try:
             sca.isEntryLatin(self.entryWord)
-                
+
         except StopIteration:
             self.anErrorOnceOccured = True
             self.warningText.config(text = "Your word contains non-Latin symbols or spaces!")
@@ -34,15 +32,14 @@ class App(Tk):
             if self.anErrorOnceOccured:
                 self.warningText.place_forget()
             self.doTranslate()
-                
-                
+
     # creates empty sample labels for languages, and list them
     def createLabels(self):
 
         # creation and initialization of variables for keeping text
         L1t = StringVar()
         L1t.set("Russian: ")
-        
+
         L2t = StringVar()
         L2t.set("Belarusian: ")
 
@@ -102,7 +99,6 @@ class App(Tk):
 
         L23t = StringVar()
         L23t.set("Church Slavonic: ")
-
 
         # creation of labels with text themselves
         L0 = Label(self, text = "EAST SLAVIC LANGUAGES")
@@ -167,7 +163,6 @@ class App(Tk):
         labelsPlaceList[6].place(x = 525, y = 125)
         labelsPlaceList[15].place(x = 975, y = 125)
 
-
     # function that brings labels' text to default
     def labelsToDefault(self):
 
@@ -193,7 +188,6 @@ class App(Tk):
         self.textVariablesList[19].set("Bulgarian: ")
         self.textVariablesList[20].set("Church Slavonic: ")
 
-
     # function that adds labels the translations
     def doTranslate(self):
 
@@ -207,12 +201,12 @@ class App(Tk):
             try:
                 translation = sca.getTranslation(self.entryWord, sca.language[i])
                 self.textVariablesList[i].set(self.textVariablesList[i].get() + translation)
-                
+
             except urllib.error.URLError:
                 self.warningText.config(text = "No Internet connection, or the Glosbe site just became inaccessible.")
                 self.warningText.place(x = 50, y = 425)
                 break
-            
+
             except:
                 self.warningText.config(text = "An unexpected error occured!")
                 self.warningText.place(x = 50, y = 425)
@@ -220,15 +214,14 @@ class App(Tk):
 
         self.translatedAgain = True
 
-    
-    def __init__(self): 
+    def __init__(self):
         super().__init__()
 
         # initial text
         entryText = Label(self, text = "Input a word in English:")
         entryText.place(x = 585, y = 10)
         entryText.config(font = ("Times New Roman", 14))
- 
+
         # string for input
         self.entryWord = StringVar()
         entryWidget = Entry(self, width = 40, textvariable = self.entryWord)
@@ -244,7 +237,7 @@ class App(Tk):
         self.warningText.place(x = 50, y = 425)
         self.warningText.config(font = ("Times New Roman", 12), fg = "red")
         self.warningText.place_forget()
-        
+
         # tracking the symbol limit
         self.entryWord.trace("w", lambda *args: self.character_limit(self.entryWord))
 
@@ -252,7 +245,7 @@ class App(Tk):
 
 
 # GUI start
-if __name__ == "__main__": 
+if __name__ == "__main__":
     root = App()
 
     root.geometry('1500x475')
@@ -261,7 +254,7 @@ if __name__ == "__main__":
     # standartization of DPI and the size of the window for all ways of executing a program
     root.call('tk', 'scaling', 1.7)
     windll.shcore.SetProcessDpiAwareness(1)
-    
+
     root.title("Slavic Comparator")
-    
+
     root.mainloop()

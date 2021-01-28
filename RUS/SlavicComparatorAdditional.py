@@ -34,7 +34,6 @@ def getTranslation(entryWord, language2):
     parser = re.sub(r'^\'|\'$', '', parser)
     parser = parser.split("\'")
 
-
     # удаление ненужных технических слов
     parser.remove('after')
     parser.remove('phrase')
@@ -44,31 +43,31 @@ def getTranslation(entryWord, language2):
     # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
     if (parser[0] != word):
         return "нет информации"
-    
+
     else:
-        
+
         # если суммарное число переводов больше 3, при этом
         # второй/третий перевод не совпадает с основным, то его
         # можно включить в выводимый результат
         if (len(parser) >= 3):
-            
+
             if parser[1] != parser[2].lower():
                 # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
                 if language2 in cyrLanguages and not isWordCyrillic(parser[2]):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[2]
-            
+
             elif (len(parser) >= 4) and (parser[1] != parser[3].lower()):
                 # если язык перевода использует кириллицу, а перевод не полностью состоит из кириллических букв
                 if language2 in cyrLanguages and not isWordCyrillic(parser[3]):
                     return parser[1]
                 else:
                     return parser[1] + ' / ' + parser[3]
-            
+
             else:
                 return parser[1]
-            
+
         else:
             return parser[1]
 
@@ -78,6 +77,7 @@ def isEntryCyrillic(entryWord):
     for i in str(entryWord.get()):
         if not bool(re.search('[\u0400-\u04FF]', i)):
             raise StopIteration
+
 
 # примерно та же функция, но используется для отбора переведённых слов
 def isWordCyrillic(word):
