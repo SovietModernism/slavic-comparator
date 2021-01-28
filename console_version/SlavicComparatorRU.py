@@ -8,6 +8,7 @@ import os
 class noSiteConnectionError(Exception):
     pass
 
+
 # кортеж из языков, использующих кириллицу (не включены сербохорватский и церковнославянский)
 cyrLanguages = {'be', 'uk', 'rue', 'orv', 'sr', 'bg', 'mk', }
 
@@ -35,7 +36,6 @@ def getTranslation(wordURL, language2):
     parser.remove('phrase')
     parser.remove('translations')
     parser.remove('success')
-
 
     # проверка, действительно ли было переведено нужное слово, либо же что-то похожее
     if (parser[0] != word):

@@ -8,6 +8,7 @@ import os
 class noSiteConnectionError(Exception):
     pass
 
+
 # tuple of languages using Cyrillic script (Serbocroatian and Church Slavonic not included)
 cyrLanguages = {'ru', 'be', 'uk', 'rue', 'orv', 'sr', 'bg', 'mk', }
 
@@ -51,7 +52,7 @@ def getTranslation(word, language2):
                 # if the 2nd language uses Cyrillic script, but the translated word has some different letters
                 if language2 in cyrLanguages and not isFullyCyrillic(parser[2]):
                     return parser[1]
-                
+
                 else:
                     return parser[1] + ' / ' + parser[2]
 
@@ -59,7 +60,7 @@ def getTranslation(word, language2):
                 # if the 2nd language uses Cyrillic script, but the translated word has some different letters
                 if language2 in cyrLanguages and not isFullyCyrillic(parser[3]):
                     return parser[1]
-                
+
                 else:
                     return parser[1] + ' / ' + parser[3]
 
