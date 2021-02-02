@@ -1,5 +1,5 @@
 # SlavicComparator (EN)
-Small program written in Python, allowing you to input a word in **English** / **Russian** and get its translations from all other Slavic languages. Translations are done with **Glosbe API**, GUI implemented with **Tkinter**.
+Translations are done with **Glosbe API**, GUI implemented with **Tkinter**.
 
 **N.B.**: I initially started to work on this project in Russian (with comments in Russian e.g.), eventually coming up with the idea it should be in English as well. That's why it has **two versions**, for both languages. The only difference between them is their interface and the word you input (either in Russian or English).
 
@@ -23,7 +23,7 @@ ___
 
 # Slavic Comparator (RU)
 
-Небольшая программа на Python, позволяющая ввести слово на **русском** / **английском** и получить его переводы с других славянских языков. Переводы выполняются с помощью API сайта Glosbe, GUI написано на Tkinter.
+Переводы выполняются с помощью **API** сайта **Glosbe**, GUI написано на **Tkinter**.
 
 **Важно**: первоначально я работал над этим проектом на русском языке, но в конце концов пришёл к выводу, что стоит также перевести это всё и на английский. Вот почему здесь **две версии**, для обоих языков. Единственная разница между ними лишь в интерфейсе программы, языке комментариев в коде, а также во вводимом слове (русском и английском соответственно).
 
